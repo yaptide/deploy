@@ -1,0 +1,7 @@
+# file must be named openstack.yaml or openstack.yml
+# Make the plugin behave like the default behavior of the old script
+plugin: openstack.cloud.openstack
+
+expand_hostvars: false
+fail_on_errors: true
+all_projects: false
