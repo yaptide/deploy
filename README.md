@@ -16,3 +16,15 @@ pip install -r requirements.txt
 ```
 ansible-inventory --graph
 ```
+
+4. Add an instance
+
+```
+ansible-playbook openstack.yml
+```
+
+5. Tear down the instance
+
+```
+ansible-playbook openstack.yml -e mode=clean
+```

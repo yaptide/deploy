@@ -1,0 +1,77 @@
+# # Show all available Openstack images
+# - name: Retrieve all available Openstack images
+#   openstack.cloud.image_info:
+#   register: result
+
+# - name: Show images
+#   debug:
+#      msg: "{{ item.name }}"
+#   loop: "{{ result.openstack_images  }}"
+
+# Creates a key pair with the running users public key
+- openstack.cloud.keypair:
+      state: present
+      name: "{{ key_name }}"
+      public_key_file: /home/ubuntu/.ssh/id_rsa.pub
+
+# - name: Get information about keypairs
+#   openstack.cloud.keypair_info:
+#   register: result
+
+# - name: Show keypairs
+#   debug:
+#      msg: "{{ item.name }}"
+#   loop: "{{ result.openstack_keypairs  }}"
+
+# # Gather information about all available flavors
+# - openstack.cloud.compute_flavor_info:
+#   register: result
+
+# - debug:
+#     msg: "{{ result.openstack_flavors }}"
+
+# https://docs.ansible.com/ansible/latest/collections/openstack/cloud/network_module.html
+- name: Create the network
+  os_network:
+    state: present
+    name: "{{ network_name }}"
+    external: True
+    shared: False
+    register: network_facts
+
+# https://docs.ansible.com/ansible/latest/collections/openstack/cloud/subnet_module.html
+- name: Create the subnet
+  os_subnet:
+    state: present
+    network_name: "{{ network_facts.id }}"
+    name: "{{ subnet_name }}"
+    ip_version: 4
+    cidr: "{{ subnet_cidr }}"
+    gateway_ip: "{{ gateway_ip }}"
+    enable_dhcp: yes
+    dns_nameservers: "{{ dns_nameservers }}"
+  register: subnet_facts
+
+# https://docs.ansible.com/ansible/latest/collections/openstack/cloud/router_module.html
+- name: Create the router
+  os_router:
+    state: present
+    name: "{{ router_name }}"
+    snat: True
+    network: "{{ external_network_name }}"
+    external_fixed_ips:
+      - subnet: nova
+    interfaces:
+      - subnet_facts
+
+# Create a new instance
+# https://docs.ansible.com/ansible/latest/collections/openstack/cloud/server_module.html
+- name: launch an instance
+  openstack.cloud.server:
+    state: present
+    name: "{{ instance_hostname }}"
+    image: "{{ image_name }}"
+    key_name: "{{ key_name }}"
+    flavor: "{{ flavor_name }}"
+    security_groups: default
+    auto_ip: yes
