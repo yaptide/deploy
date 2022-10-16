@@ -8,11 +8,17 @@
 #      msg: "{{ item.name }}"
 #   loop: "{{ result.openstack_images  }}"
 
-# Creates a key pair with the running users public key
+# Old key needs to be deleted prior to creating a new one
+# https://docs.ansible.com/ansible/latest/collections/openstack/cloud/keypair_module.html
+- openstack.cloud.keypair:
+      state: absent
+      name: "{{ key_name }}"
+
+# https://docs.ansible.com/ansible/latest/collections/openstack/cloud/keypair_module.html
 - openstack.cloud.keypair:
       state: present
       name: "{{ key_name }}"
-      public_key_file: /home/ubuntu/.ssh/id_rsa.pub
+      public_key_file: /home/grzanka/.ssh/id_rsa.pub
 
 # - name: Get information about keypairs
 #   openstack.cloud.keypair_info:
@@ -35,9 +41,7 @@
   os_network:
     state: present
     name: "{{ network_name }}"
-    external: True
-    shared: False
-    register: network_facts
+  register: network_facts
 
 # https://docs.ansible.com/ansible/latest/collections/openstack/cloud/subnet_module.html
 - name: Create the subnet
@@ -57,12 +61,31 @@
   os_router:
     state: present
     name: "{{ router_name }}"
-    snat: True
     network: "{{ external_network_name }}"
-    external_fixed_ips:
-      - subnet: nova
     interfaces:
-      - subnet_facts
+      - "{{ subnet_name }}"
+
+# https://docs.ansible.com/ansible/latest/collections/openstack/cloud/security_group_module.html
+- name: Create a new security group
+  os_security_group:
+    state: present
+    name: "{{ security_group_name }}"
+
+# https://docs.ansible.com/ansible/latest/collections/openstack/cloud/security_group_rule_module.html  
+- name: Create a new security group allowing any ICMP
+  os_security_group_rule:
+    security_group: "{{ security_group_name }}"
+    protocol: icmp
+    remote_ip_prefix: 0.0.0.0/0
+
+# https://docs.ansible.com/ansible/latest/collections/openstack/cloud/security_group_rule_module.html
+- name: Create a new security group allowing any SSH connection
+  os_security_group_rule:
+    security_group: "{{ security_group_name }}"
+    protocol: tcp
+    port_range_min: 22
+    port_range_max: 22
+    remote_ip_prefix: 0.0.0.0/0
 
 # Create a new instance
 # https://docs.ansible.com/ansible/latest/collections/openstack/cloud/server_module.html
@@ -73,5 +96,13 @@
     image: "{{ image_name }}"
     key_name: "{{ key_name }}"
     flavor: "{{ flavor_name }}"
-    security_groups: default
+    nics:
+      - net-name: "{{ network_name }}"
+    security_groups: "{{ security_group_name }}"
     auto_ip: yes
+  register: instance_facts
+
+- name: Show Server's IP
+  debug: 
+    msg: "{{ instance_facts.openstack_server.accessIPv4 }}"
+      #var=instance_facts.openstack.public_v4

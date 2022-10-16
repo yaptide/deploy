@@ -1,0 +1,19 @@
+# Create a new instance
+# https://docs.ansible.com/ansible/latest/collections/openstack/cloud/server_module.html
+- name: launch an instance
+  openstack.cloud.server:
+    state: absent
+    name: "{{ instance_hostname }}"
+
+# https://docs.ansible.com/ansible/latest/collections/openstack/cloud/router_module.html
+- name: Delete the router
+  os_router:
+    state: absent
+    name: "{{ router_name }}"
+    
+# https://docs.ansible.com/ansible/latest/collections/openstack/cloud/network_module.html
+- name: Delete the network
+  os_network:
+    state: absent
+    name: "{{ network_name }}"
+

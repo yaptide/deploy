@@ -14,3 +14,4 @@ dns_nameservers:
 
 router_name: "yaptide_router"
 external_network_name: "external-10-192"
+security_group_name: "yaptide_secgr"
