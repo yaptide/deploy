@@ -22,4 +22,4 @@ jobs:
       - name: Lint Ansible Playbooks
         run: |
           pip install ansible-lint
-          ansible-lint ansible/
+          ansible-lint .
