@@ -1,9 +1,14 @@
-# Create a new instance
 # https://docs.ansible.com/ansible/latest/collections/openstack/cloud/server_module.html
-- name: launch an instance
+- name: Delete an instance
   openstack.cloud.server:
     state: absent
     name: "{{ instance_hostname }}"
+
+# https://docs.ansible.com/ansible/latest/collections/openstack/cloud/security_group_module.html
+- name: Delete security group
+  os_security_group:
+    state: absent
+    name: "{{ security_group_name }}"
 
 # https://docs.ansible.com/ansible/latest/collections/openstack/cloud/router_module.html
 - name: Delete the router

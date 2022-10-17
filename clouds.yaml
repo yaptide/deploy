@@ -1,10 +1,10 @@
 clouds:
- TODO:
-   region_name: TODO
-   auth:
-    username: TODO
-    password: TODO
-    project_name: TODO
-    auth_url: TODO
-    user_domain_name: TODO
-    project_domain_name: TODO
+  TODO:
+    region_name: TODO
+    auth:
+      username: TODO
+      password: TODO
+      project_name: TODO
+      auth_url: TODO
+      user_domain_name: TODO
+      project_domain_name: TODO
