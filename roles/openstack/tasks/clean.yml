@@ -6,19 +6,18 @@
 
 # https://docs.ansible.com/ansible/latest/collections/openstack/cloud/security_group_module.html
 - name: Delete security group
-  os_security_group:
+  openstack.cloud.security_group:
     state: absent
     name: "{{ security_group_name }}"
 
 # https://docs.ansible.com/ansible/latest/collections/openstack/cloud/router_module.html
 - name: Delete the router
-  os_router:
+  openstack.cloud.router:
     state: absent
     name: "{{ router_name }}"
-    
+
 # https://docs.ansible.com/ansible/latest/collections/openstack/cloud/network_module.html
 - name: Delete the network
-  os_network:
+  openstack.cloud.os_network:
     state: absent
     name: "{{ network_name }}"
-
