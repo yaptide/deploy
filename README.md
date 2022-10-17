@@ -20,11 +20,11 @@ ansible-inventory --graph
 4. Add an instance
 
 ```
-ansible-playbook openstack.yml
+ansible-playbook cloud_instance.yml
 ```
 
 5. Tear down the instance
 
 ```
-ansible-playbook openstack.yml -e mode=clean
+ansible-playbook cloud_instance.yml -e mode=clean
 ```

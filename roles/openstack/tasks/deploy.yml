@@ -10,18 +10,18 @@
   openstack.cloud.keypair:
     state: present
     name: "{{ key_name }}"
-    public_key_file: '~/.ssh/id_rsa.pub'
+    public_key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
 
 # https://docs.ansible.com/ansible/latest/collections/openstack/cloud/network_module.html
 - name: Create the network
-  openstack.cloud.os_network:
+  openstack.cloud.network:
     state: present
     name: "{{ network_name }}"
   register: network_facts
 
 # https://docs.ansible.com/ansible/latest/collections/openstack/cloud/subnet_module.html
 - name: Create the subnet
-  openstack.cloud.os_subnet:
+  openstack.cloud.subnet:
     state: present
     network_name: "{{ network_facts.id }}"
     name: "{{ subnet_name }}"
@@ -34,7 +34,7 @@
 
 # https://docs.ansible.com/ansible/latest/collections/openstack/cloud/router_module.html
 - name: Create the router
-  openstack.cloud.os_router:
+  openstack.cloud.router:
     state: present
     name: "{{ router_name }}"
     network: "{{ external_network_name }}"
@@ -43,20 +43,20 @@
 
 # https://docs.ansible.com/ansible/latest/collections/openstack/cloud/security_group_module.html
 - name: Create a new security group
-  openstack.cloud.os_security_group:
+  openstack.cloud.security_group:
     state: present
     name: "{{ security_group_name }}"
 
 # https://docs.ansible.com/ansible/latest/collections/openstack/cloud/security_group_rule_module.html
 - name: Create a new security group allowing any ICMP
-  openstack.cloud.os_security_group_rule:
+  openstack.cloud.security_group_rule:
     security_group: "{{ security_group_name }}"
     protocol: icmp
     remote_ip_prefix: 0.0.0.0/0
 
 # https://docs.ansible.com/ansible/latest/collections/openstack/cloud/security_group_rule_module.html
 - name: Create a new security group allowing any SSH connection
-  openstack.cloud.os_security_group_rule:
+  openstack.cloud.security_group_rule:
     security_group: "{{ security_group_name }}"
     protocol: tcp
     port_range_min: 22

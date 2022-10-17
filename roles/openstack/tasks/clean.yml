@@ -18,6 +18,6 @@
 
 # https://docs.ansible.com/ansible/latest/collections/openstack/cloud/network_module.html
 - name: Delete the network
-  openstack.cloud.os_network:
+  openstack.cloud.network:
     state: absent
     name: "{{ network_name }}"
