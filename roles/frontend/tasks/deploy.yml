@@ -2,4 +2,5 @@
 - name: Git checkout
   ansible.builtin.git: # noqa: latest
     repo: 'https://github.com/yaptide/ui'
-    dest: '{{ ui_repo_workdir }}'
+    dest: '{{ frontend_repo_workdir }}'
+    version: '{{ frontend_repo_version }}'

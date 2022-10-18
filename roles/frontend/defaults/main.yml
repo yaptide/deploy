@@ -1,1 +1,2 @@
-ui_repo_workdir: '~/ui'
+frontend_repo_workdir: '~/ui'
+frontend_repo_version: master

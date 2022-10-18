@@ -1,5 +1,6 @@
 # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/git_module.html
 - name: Git checkout
-  ansible.builtin.git: # noqa: latest
+  ansible.builtin.git:
     repo: 'https://github.com/yaptide/yaptide'
     dest: '{{ backend_repo_workdir }}'
+    version: '{{ backend_repo_version }}'

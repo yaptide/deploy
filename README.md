@@ -29,6 +29,12 @@ ansible-playbook cloud_instance.yml
 ansible-playbook site.yml
 ```
 
+to pick specific branch type:
+
+```
+ansible-playbook site.yml -e backend_repo_version='yaptide-local-runner' -e frontend_repo_version='feature/load-various-data'
+```
+
 6. Bring the instance to the clean state:
 
 ```
