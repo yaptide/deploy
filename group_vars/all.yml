@@ -1,1 +1,3 @@
 mode: deploy
+
+instance_hostname: "yaptide"

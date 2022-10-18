@@ -1,0 +1,4 @@
+- hosts: yaptide
+  gather_facts: false
+  roles:
+    - setup
