@@ -16,6 +16,14 @@
       - '{{ frontend_repo_workdir }}:/ui'
   register: frontend_build_result
 
+- name: Serve frontend
+  community.docker.docker_container:
+    name: nginx
+    image: nginx
+    detach: true
+    volumes:
+      - '{{ frontend_repo_workdir }}/build:/usr/share/nginx/html'
+
 - name: Print frontend build result
   ansible.builtin.debug:
     msg: '{{ frontend_build_result }}'
