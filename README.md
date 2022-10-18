@@ -23,7 +23,19 @@ ansible-inventory --graph
 ansible-playbook cloud_instance.yml
 ```
 
-5. Tear down the instance
+5. Setup the instance (install all necessary packages, configure firewall, etc.)
+
+```
+ansible-playbook site.yml
+```
+
+6. Bring the instance to the clean state:
+
+```
+ansible-playbook site.yml -e mode=clean
+```
+
+7. Tear down the instance
 
 ```
 ansible-playbook cloud_instance.yml -e mode=clean

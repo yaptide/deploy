@@ -1,5 +1,6 @@
 # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/apt_module.html
 - name: Remove packages
+  become: true
   ansible.builtin.apt:
     name: "{{ apt_packages }}"
     state: absent
