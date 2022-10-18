@@ -1,2 +1,2 @@
-frontend_repo_workdir: '~/ui'
+frontend_repo_workdir: '/home/ubuntu/ui'
 frontend_repo_version: master
