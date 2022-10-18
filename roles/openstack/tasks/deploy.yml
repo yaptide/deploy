@@ -73,12 +73,13 @@
     flavor: "{{ flavor_name }}"
     nics:
       - net-name: "{{ network_name }}"
-    auto_ip: false
+    auto_ip: false  # public IP will be assigned in the next task
     security_groups: "{{ security_group_name }}"
     # userdata handled by cloud-init https://cloudinit.readthedocs.io/en/latest/
-    userdata: |
-      #cloud-config
-      package_update: true
+    # here we run `apt update` to speedup later process of installing packages
+    # userdata: |
+    #   #cloud-config
+    #   package_update: true
   register: instance_facts
 
 - name: Assign a floating IP to the instance
