@@ -2,7 +2,7 @@
 - name: Update apt cache
   become: true
   ansible.builtin.apt:
-    update_cache: yes
+    update_cache: true
     state: present
 
 # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/apt_module.html
