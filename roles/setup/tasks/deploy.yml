@@ -1,13 +1,36 @@
 # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/apt_module.html
 - name: Update apt cache
-  become: true
   ansible.builtin.apt:
     update_cache: true
     state: present
 
 # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/apt_module.html
 - name: Install necessary packages
-  become: true
   ansible.builtin.apt:
     name: "{{ apt_packages }}"
     state: present
+
+- name: Add Docker GPG apt Key
+  ansible.builtin.apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: Add Docker Repository
+  ansible.builtin.apt_repository:
+    repo: deb https://download.docker.com/linux/ubuntu focal stable
+    state: present
+
+- name: Update apt and install docker-ce
+  ansible.builtin.apt:
+    name: docker-ce
+    update_cache: true
+
+- name: Start and enable docker service
+  ansible.builtin.systemd:
+    state: started
+    name: docker
+    enabled: true
+
+- name: Install Docker Module for Python
+  ansible.builtin.pip:
+    name: docker

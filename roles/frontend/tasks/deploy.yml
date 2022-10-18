@@ -4,3 +4,7 @@
     repo: 'https://github.com/yaptide/ui'
     dest: '{{ frontend_repo_workdir }}'
     version: '{{ frontend_repo_version }}'
+
+- name: Update packages based on package.json to their latest version.
+  community.general.npm:
+    path: '{{ frontend_repo_workdir }}'
