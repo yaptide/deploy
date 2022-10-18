@@ -75,11 +75,6 @@
       - net-name: "{{ network_name }}"
     auto_ip: false  # public IP will be assigned in the next task
     security_groups: "{{ security_group_name }}"
-    # userdata handled by cloud-init https://cloudinit.readthedocs.io/en/latest/
-    # here we run `apt update` to speedup later process of installing packages
-    # userdata: |
-    #   #cloud-config
-    #   package_update: true
   register: instance_facts
 
 - name: Assign a floating IP to the instance
@@ -107,3 +102,12 @@
   ansible.builtin.known_hosts:
     name: "{{ floating_ip_facts.floating_ip.floating_ip_address }}"
     key: "{{ ssh_keyscan_host_results.stdout }}"
+
+- name: Wait for port 22 to become open and contain "OpenSSH"
+  ansible.builtin.wait_for:
+    port: 22
+    host: "{{ floating_ip_facts.floating_ip.floating_ip_address }}"
+    search_regex: OpenSSH
+    delay: 5
+    timeout: 60
+  connection: local

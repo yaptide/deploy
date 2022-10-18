@@ -1,4 +1,11 @@
 # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/apt_module.html
+- name: Update apt cache
+  become: true
+  ansible.builtin.apt:
+    update_cache: yes
+    state: present
+
+# https://docs.ansible.com/ansible/latest/collections/ansible/builtin/apt_module.html
 - name: Install necessary packages
   become: true
   ansible.builtin.apt:

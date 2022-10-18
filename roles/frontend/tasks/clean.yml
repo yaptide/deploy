@@ -1,0 +1,4 @@
+- name: Recursively remove directory
+  ansible.builtin.file:
+    path: "{{ ui_repo_workdir }}"
+    state: absent
