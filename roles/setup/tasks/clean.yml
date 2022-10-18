@@ -12,7 +12,7 @@
 - name: Remove packages
   ansible.builtin.apt:
     name: "{{ apt_packages }}"
-    autoremove: yes
+    autoremove: true
     state: absent
 
 - name: Stop and disable docker service
@@ -24,7 +24,7 @@
 - name: Remove docker-ce
   ansible.builtin.apt:
     name: docker-ce
-    autoremove: yes
+    autoremove: true
     state: absent
 
 - name: Remove docker Repository

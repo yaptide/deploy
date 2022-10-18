@@ -63,24 +63,9 @@
     port_range_max: 22
     remote_ip_prefix: 0.0.0.0/0
 
-# https://docs.ansible.com/ansible/latest/collections/openstack/cloud/server_module.html
 - name: Launch an instance
-  openstack.cloud.server:
-    state: present
-    name: "{{ instance_hostname }}"
-    image: "{{ image_name }}"
-    key_name: "{{ key_name }}"
-    flavor: "{{ flavor_name }}"
-    nics:
-      - net-name: "{{ network_name }}"
-    auto_ip: false  # public IP will be assigned in the next task
-    security_groups: "{{ security_group_name }}"
-  register: instance_facts
+  ansible.builtin.include_tasks: launch_instance.yml
 
-- name: Debug instance facts
-  debug:
-    var: instance_facts
-    
 - name: Assign a floating IP to the instance
   openstack.cloud.floating_ip:
     server: "{{ instance_hostname }}"
