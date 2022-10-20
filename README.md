@@ -28,6 +28,11 @@ ansible -m debug -a "var=hostvars[inventory_hostname].ansible_host" all
 ansible-playbook cloud_instance.yml
 ```
 
+To start from pre-defined image:
+```
+ansible-playbook cloud_instance.yml -e "image_name='Ubuntu 20.04 LTS Snapshot 20221020'"
+```
+
 5. Setup the instance (install all necessary packages, configure firewall, etc.)
 
 ```
