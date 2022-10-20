@@ -63,6 +63,15 @@
     port_range_max: 22
     remote_ip_prefix: 0.0.0.0/0
 
+# https://docs.ansible.com/ansible/latest/collections/openstack/cloud/security_group_rule_module.html
+- name: Create a new security group allowing connection to port 80
+  openstack.cloud.security_group_rule:
+    security_group: "{{ security_group_name }}"
+    protocol: tcp
+    port_range_min: 80
+    port_range_max: 80
+    remote_ip_prefix: 0.0.0.0/0
+
 - name: Launch an instance
   ansible.builtin.include_tasks: launch_instance.yml
 

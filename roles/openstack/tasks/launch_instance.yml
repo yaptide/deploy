@@ -1,8 +1,8 @@
 # filename: coupled_task_group.yml
 - name: Group of tasks that are tightly coupled
   vars:
-    max_retries: 5
-    retry_delay: 10
+    max_retries: 8
+    retry_delay: 20
   block:
     - name: Increment the retry count
       ansible.builtin.set_fact:

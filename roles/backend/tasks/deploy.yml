@@ -1,6 +1,34 @@
 # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/git_module.html
 - name: Git checkout
+  become: false
   ansible.builtin.git:
     repo: 'https://github.com/yaptide/yaptide'
     dest: '{{ backend_repo_workdir }}'
     version: '{{ backend_repo_version }}'
+
+- name: Copy file with owner and permissions
+  become: false
+  ansible.builtin.copy:
+    src: shieldhit
+    dest: '{{ backend_repo_workdir }}'
+    mode: '0750'
+
+# https://docs.ansible.com/ansible/latest/collections/ansible/builtin/copy_module.html
+- name: Creating a file with content
+  become: false
+  ansible.builtin.copy:
+    dest: '{{ backend_repo_workdir }}/.env'
+    mode: '0640'
+    content: 'SHIELDHIT_PATH: {{ backend_repo_workdir }}/shieldhit'
+
+# https://docs.ansible.com/ansible/latest/collections/community/docker/docker_compose_module.html
+- name: Run `docker-compose up` again
+  become: true
+  community.docker.docker_compose:
+    project_src: '{{ backend_repo_workdir }}'
+    build: false
+  register: output
+
+- name: Debug
+  ansible.builtin.debug:
+    var: output

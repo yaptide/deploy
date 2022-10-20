@@ -17,6 +17,11 @@ pip install -r requirements.txt
 ansible-inventory --graph
 ```
 
+To print the IPs of all instances:
+```
+ansible -m debug -a "var=hostvars[inventory_hostname].ansible_host" all
+```
+
 4. Add an instance
 
 ```
