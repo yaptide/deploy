@@ -27,8 +27,9 @@
   community.docker.docker_compose:
     project_src: '{{ backend_repo_workdir }}'
     build: false
-  register: output
 
-- name: Debug
-  ansible.builtin.debug:
-    var: output
+- name: Insert user into database
+  community.docker.docker_container_exec:
+    container: yaptide_flask
+    command: python3 db_script.py
+    chdir: /usr/local/app/yaptide/data

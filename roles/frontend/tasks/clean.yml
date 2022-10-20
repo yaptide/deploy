@@ -9,4 +9,4 @@
   community.docker.docker_container:
     name: node
     image: node
-    state: absend
+    state: absent
