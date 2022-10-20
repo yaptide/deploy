@@ -1,0 +1,12 @@
+- name: Recursively remove directory
+  become: true
+  ansible.builtin.file:
+    path: "{{ frontend_repo_workdir }}"
+    state: absent
+
+- name: Kill frontend container
+  become: true
+  community.docker.docker_container:
+    name: node
+    image: node
+    state: absent

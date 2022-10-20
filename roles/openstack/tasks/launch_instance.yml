@@ -1,0 +1,55 @@
+# filename: coupled_task_group.yml
+# TODO add comment explaining what this does
+- name: Group of tasks that are tightly coupled
+  vars:
+    max_retries: 8
+    retry_delay: 20
+  block:
+    - name: Increment the retry count
+      ansible.builtin.set_fact:
+        retry_count: "{{ 0 if retry_count is undefined else retry_count | int + 1 }}"
+
+    # https://docs.ansible.com/ansible/latest/collections/openstack/cloud/server_module.html
+    - name: Delete an instance
+      openstack.cloud.server:
+        state: absent
+        name: "{{ instance_hostname }}"
+
+    # https://docs.ansible.com/ansible/latest/collections/openstack/cloud/server_module.html
+    # TODO add better handling of error in case of failure
+    - name: Launch an instance
+      openstack.cloud.server:
+        state: present
+        name: "{{ instance_hostname }}"
+        image: "{{ image_name }}"
+        key_name: "{{ key_name }}"
+        flavor: "{{ flavor_name }}"
+        nics:
+          - net-name: "{{ network_name }}"
+        auto_ip: false  # public IP will be assigned in the next task
+        security_groups: "{{ security_group_name }}"
+      register: instance_facts
+      failed_when: (instance_facts.server.addresses | dict2items | first).value | map(attribute='addr') | select('match', '10.0.0.*') | length != 1
+
+    - name: Print all local IP addresses
+      ansible.builtin.debug:
+        var: (instance_facts.server.addresses | dict2items | first).value | map(attribute='addr') | select('match', '10.0.0.*')
+
+  rescue:
+    - name: Check if the retry count is less than the maximum
+      ansible.builtin.fail:
+        msg: Maximum retries of grouped tasks reached
+      when: retry_count | int == max_retries | int
+
+    - name: Wait for retry_delay seconds
+      ansible.builtin.debug:
+        msg: "Task Group failed, let's give it another shot"
+
+    - name: Sleep between retries
+      ansible.builtin.wait_for:
+        timeout: "{{ retry_delay }}" # seconds
+      delegate_to: localhost
+      become: false
+
+    - name: Recursively call the task group
+      ansible.builtin.include_tasks: launch_instance.yml

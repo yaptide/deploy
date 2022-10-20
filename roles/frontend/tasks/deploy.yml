@@ -1,0 +1,45 @@
+# https://docs.ansible.com/ansible/latest/collections/ansible/builtin/git_module.html
+- name: Git checkout
+  become: true  # we need to run as a root, otherwise docker container won't be able to save the files in mounted volumes
+  ansible.builtin.git: # noqa: latest
+    repo: 'https://github.com/yaptide/ui'
+    dest: '{{ frontend_repo_workdir }}'
+    version: '{{ frontend_repo_version }}'
+
+# Gather IP facts from ipify.org
+# TODO think of better way of assiging floating IP to a variable by openstack role and passing it to frontend role
+- name: Get my public IP
+  community.general.ipify_facts:
+  register: my_public_ip
+
+- name: Debug
+  ansible.builtin.debug:
+    var: my_public_ip.ansible_facts.ipify_public_ip
+
+# https://docs.ansible.com/ansible/latest/collections/community/docker/docker_container_module.html
+- name: Build frontend
+  become: true
+  community.docker.docker_container:
+    name: node
+    image: node
+    env:
+      REACT_APP_BACKEND_URL: 'http://{{ my_public_ip.ansible_facts.ipify_public_ip }}:5000'
+    working_dir: '/ui'
+    command: /bin/bash -c "apt update; apt install -y python3-pip; npm install; npm run build; npm run fix-web-dev"
+    detach: false
+    volumes:
+      - '{{ frontend_repo_workdir }}:/ui'
+  register: frontend_build_result
+
+# https://docs.ansible.com/ansible/latest/collections/community/docker/docker_container_module.html
+# needs to run as root, as regular user cannot open low (<1024) ports
+- name: Serve frontend using nginx
+  become: true
+  community.docker.docker_container:
+    name: nginx
+    image: nginx
+    detach: true
+    published_ports:
+      - '0.0.0.0:80:80'
+    volumes:
+      - '{{ frontend_repo_workdir }}/build:/usr/share/nginx/html'

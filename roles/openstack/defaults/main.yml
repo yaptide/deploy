@@ -1,0 +1,17 @@
+instance_hostname: "yaptide"
+
+image_name: "Ubuntu 20.04 LTS (20201016)"
+key_name: "ansible_key"
+flavor_name: "c1.small"
+
+network_name: "yaptide_network"
+subnet_name: "yaptide_subnet"
+subnet_cidr: "10.0.0.0/24"
+gateway_ip: "10.0.0.1"
+dns_nameservers:
+  - "8.8.8.8"
+  - "1.1.1.1"
+
+router_name: "yaptide_router"
+external_network_name: "external-10-192"
+security_group_name: "yaptide_secgr"

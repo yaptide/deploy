@@ -1,0 +1,9 @@
+- hosts: yaptide
+  gather_facts: false
+  roles:
+    - role: setup
+      tags: setup
+    - role: frontend
+      tags: frontend
+    - role: backend
+      tags: backend
