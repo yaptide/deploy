@@ -197,3 +197,4 @@ clouds.yaml
 shieldhit
 *openrc*.sh
 roles/backend/files/password
+grid_proxy

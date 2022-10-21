@@ -22,6 +22,13 @@
     mode: '0640'
     content: 'SHIELDHIT_PATH: {{ backend_repo_workdir }}/shieldhit'
 
+- name: Copy grid proxy
+  become: false
+  ansible.builtin.copy:
+    src: grid_proxy
+    dest: '{{ backend_repo_workdir }}/yaptide/data/'
+    mode: '0640'
+
 # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/copy_module.html
 - name: Create a file with initial username and password
   become: false
@@ -36,6 +43,15 @@
               "DATA": {
                   "LOGIN": "admin",
                   "PASSWORD": "{{ backend_password }}"
+              }
+          }
+          ,
+          {
+              "OPERATION": "UPDATE",
+              "TABLE": "User",
+              "DATA": {
+                  "LOGIN": "admin",
+                  "GRID_PROXY_NAME": "grid_proxy"
               }
           }
       ]

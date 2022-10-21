@@ -53,6 +53,15 @@ This will save you some time, as the image will be used instead of installing al
 ansible-playbook cloud_instance.yml -e "image_name='Ubuntu 20.04 LTS Snapshot 20221021'"
 ```
 
+4a
+
+For some time we would need to generate a grid proxy. This can be done by running the following command:
+
+```bash
+export ARES_USERNAME=plgkongruencj
+read -s p && echo $p | ssh -l $ARES_USERNAME ares.cyfronet.pl "grid-proxy-init -q -pwstdin && cat /tmp/x509up_u\`id -u\`" > grid_proxy && unset p
+```
+
 5. Deploy the yaptide platform on the instance.
 At this stage necessary packages will be installed and respective repositories cloned.
 The backend will be served on port 5000 and the frontend on port 80.
