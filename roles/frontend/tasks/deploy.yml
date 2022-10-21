@@ -46,4 +46,4 @@
 
 - name: Show where frontend is running
   ansible.builtin.debug:
-    msg: "Yaptide platform is available at http://{{ my_public_ip.ansible_facts.ipify_public_ip }}"
+    msg: "Yaptide platform is available at http://{{ my_public_ip.ansible_facts.ipify_public_ip }} "

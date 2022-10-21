@@ -59,6 +59,12 @@ To get larger flavor, use the following command:
 ansible-playbook cloud_instance.yml -e "flavor_name='h1.large'"
 ```
 
+To create an instance with a different name, use the following command:
+
+```bash
+ansible-playbook cloud_instance.yml -e "instance_name='yaptide2'"
+```
+
 4a
 
 For some time we would need to generate a grid proxy. This can be done by running the following command:
@@ -87,6 +93,12 @@ You can also run only few stages of the deployment. For example to perform only 
 
 ```bash
 ansible-playbook site.yml --tags "setup"
+```
+
+To deploy on an instance with a different name, use the following command:
+
+```bash
+ansible-playbook site.yml -e "variable_host='yaptide2'"
 ```
 
 6. To remove the yaptide platform from the instance, run:
