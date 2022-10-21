@@ -1,6 +1,5 @@
 # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/git_module.html
 - name: Git checkout
-  become: false
   ansible.builtin.git:
     repo: 'https://github.com/yaptide/yaptide'
     dest: '{{ backend_repo_workdir }}'
@@ -8,7 +7,6 @@
     force: true  # at later stages repo can be manually modified, therefore we do a foce checkout
 
 - name: Copy shieldhit binary to the backend instance
-  become: false
   ansible.builtin.copy:
     src: shieldhit
     dest: '{{ backend_repo_workdir }}'
@@ -16,22 +14,28 @@
 
 # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/copy_module.html
 - name: Create a file with environment variables, needed by docker-compose
-  become: false
   ansible.builtin.copy:
     dest: '{{ backend_repo_workdir }}/.env'
     mode: '0640'
     content: 'SHIELDHIT_PATH: {{ backend_repo_workdir }}/shieldhit'
 
+- name: Check if local file grid_proxy exists
+  ansible.builtin.stat:
+    path: grid_proxy
+  vars:
+    ansible_become: false
+  delegate_to: localhost
+  register: grid_proxy_stat
+
 - name: Copy grid proxy
-  become: false
   ansible.builtin.copy:
     src: grid_proxy
     dest: '{{ backend_repo_workdir }}/yaptide/data/'
     mode: '0640'
+  when: grid_proxy_stat.stat.exists
 
 # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/copy_module.html
 - name: Create a file with initial username and password
-  become: false
   ansible.builtin.copy:
     dest: '{{ backend_repo_workdir }}/yaptide/data/script_input.json'
     mode: '0640'
@@ -58,7 +62,6 @@
 
 # https://docs.ansible.com/ansible/latest/collections/community/docker/docker_compose_module.html
 - name: Run `docker-compose up` to bring up the backend
-  become: true
   community.docker.docker_compose:
     project_src: '{{ backend_repo_workdir }}'
 
