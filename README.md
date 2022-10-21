@@ -9,7 +9,7 @@ The deployment is managed by the ansible playbooks. In this project two major pl
 
 ## Instructions
 
-1. Fill the clouds.yaml with credentials needed to access OpenStack cloud
+1. Downloand the `openrc.sh` file from the OpenStack dashboard and source it. If it asks for a password, use the one from the dashboard.
 
 2. Install necessary requirements:
 

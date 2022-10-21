@@ -5,6 +5,7 @@
     name: "{{ instance_hostname }}"
 
 # https://docs.ansible.com/ansible/latest/collections/openstack/cloud/security_group_module.html
+# TODO there may be other instance, check for presence before deleting
 - name: Delete security group
   openstack.cloud.security_group:
     state: absent
