@@ -1,5 +1,5 @@
 - name: Check if backend repo exists
-  stat:
+  ansible.builtin.stat:
     path: '{{ backend_repo_workdir }}/docker-compose.yml'
   register: docker_compose_file_status
 
