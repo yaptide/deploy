@@ -5,8 +5,9 @@
     repo: 'https://github.com/yaptide/yaptide'
     dest: '{{ backend_repo_workdir }}'
     version: '{{ backend_repo_version }}'
+    force: true  # at later stages repo can be manually modified, therefore we do a foce checkout
 
-- name: Copy file with owner and permissions
+- name: Copy shieldhit binary to the backend instance
   become: false
   ansible.builtin.copy:
     src: shieldhit
@@ -14,21 +15,38 @@
     mode: '0750'
 
 # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/copy_module.html
-- name: Creating a file with content
+- name: Create a file with environment variables, needed by docker-compose
   become: false
   ansible.builtin.copy:
     dest: '{{ backend_repo_workdir }}/.env'
     mode: '0640'
     content: 'SHIELDHIT_PATH: {{ backend_repo_workdir }}/shieldhit'
 
+# https://docs.ansible.com/ansible/latest/collections/ansible/builtin/copy_module.html
+- name: Create a file with initial username and password
+  become: false
+  ansible.builtin.copy:
+    dest: '{{ backend_repo_workdir }}/yaptide/data/script_input.json'
+    mode: '0640'
+    content: |
+      [
+          {
+              "OPERATION": "INSERT",
+              "TABLE": "User",
+              "DATA": {
+                  "LOGIN": "admin",
+                  "PASSWORD": "{{ backend_password }}"
+              }
+          }
+      ]
+
 # https://docs.ansible.com/ansible/latest/collections/community/docker/docker_compose_module.html
-- name: Run `docker-compose up` again
+- name: Run `docker-compose up` to bring up the backend
   become: true
   community.docker.docker_compose:
     project_src: '{{ backend_repo_workdir }}'
-    build: false
 
-- name: Insert user into database
+- name: Insert a first user into database
   community.docker.docker_container_exec:
     container: yaptide_flask
     command: python3 db_script.py

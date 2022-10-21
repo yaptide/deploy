@@ -1,4 +1,19 @@
-- name: Recursively remove directory
+- name: Check if backend repo exists
+  stat:
+    path: '{{ backend_repo_workdir }}/docker-compose.yml'
+  register: docker_compose_file_status
+
+# https://docs.ansible.com/ansible/latest/collections/community/docker/docker_compose_module.html
+- name: Run `docker-compose down` to shut down the backend
+  become: true
+  community.docker.docker_compose:
+    project_src: '{{ backend_repo_workdir }}'
+    state: absent
+    remove_images: all
+    remove_volumes: true
+  when: docker_compose_file_status.stat.exists
+
+- name: Recursively remove directory with clone repo
   ansible.builtin.file:
     path: "{{ backend_repo_workdir }}"
     state: absent

@@ -50,7 +50,7 @@ In case you have an existing regular or snaphot image, you can use it to create 
 This will save you some time, as the image will be used instead of installing all the packages from scratch.
 
 ```bash
-ansible-playbook cloud_instance.yml -e "image_name='Ubuntu 20.04 LTS Snapshot 20221020'"
+ansible-playbook cloud_instance.yml -e "image_name='Ubuntu 20.04 LTS Snapshot 20221021'"
 ```
 
 5. Deploy the yaptide platform on the instance.

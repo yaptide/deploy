@@ -1,1 +1,3 @@
 mode: deploy
+
+backend_password: "{{ lookup('ansible.builtin.password', 'roles/backend/files/password length=15') }}"
