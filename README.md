@@ -53,6 +53,12 @@ This will save you some time, as the image will be used instead of installing al
 ansible-playbook cloud_instance.yml -e "image_name='Ubuntu 20.04 LTS Snapshot 20221021'"
 ```
 
+To get larger flavor, use the following command:
+
+```bash
+ansible-playbook cloud_instance.yml -e "flavor_name='h1.large'"
+```
+
 4a
 
 For some time we would need to generate a grid proxy. This can be done by running the following command:
