@@ -1,12 +1,16 @@
+# https://docs.ansible.com/ansible/latest/collections/community/docker/docker_container_module.html
+- name: Kill and remove frontend containers
+  become: true
+  community.docker.docker_container:
+    name: '{{ item }}'
+    image: '{{ item }}'
+    state: absent
+  loop:
+    - node
+    - nginx
+
 - name: Recursively remove directory
   become: true
   ansible.builtin.file:
     path: "{{ frontend_repo_workdir }}"
-    state: absent
-
-- name: Kill frontend container
-  become: true
-  community.docker.docker_container:
-    name: node
-    image: node
     state: absent

@@ -67,6 +67,12 @@
     - 80
     - 5000
 
+# At the moment of writing cloud infrastructure (C3 @ plgrid) has issues with creating instances
+# Due to some problems two network interfaces are created for each instance, causing problems with
+# assiging public IP
+# As a workaround we are use a dedicated playbook to create an instance, and in case of troubles
+# tear it down and repeat the process
+# Due to limitations of the ansible we cannot implement it as a single repetitive task
 - name: Launch an instance
   ansible.builtin.include_tasks: launch_instance.yml
 
@@ -78,10 +84,6 @@
     reuse: true
     wait: true
   register: floating_ip_facts
-
-- name: Show IP
-  ansible.builtin.debug:
-    msg: "{{ floating_ip_facts.floating_ip.floating_ip_address }}"
 
 - name: Scan for ssh public key
   ansible.builtin.command: "ssh-keyscan -H {{ floating_ip_facts.floating_ip.floating_ip_address }}"
@@ -104,3 +106,7 @@
     delay: 5
     timeout: 60
   connection: local
+
+- name: Show IP
+  ansible.builtin.debug:
+    msg: "To connect via ssh to the machine type: ssh {{ ansible_user }}@{{ floating_ip_facts.floating_ip.floating_ip_address }}"

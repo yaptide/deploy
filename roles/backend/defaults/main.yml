@@ -1,2 +1,4 @@
 backend_repo_workdir: '/home/ubuntu/yaptide'
 backend_repo_version: master
+
+backend_password: "password"

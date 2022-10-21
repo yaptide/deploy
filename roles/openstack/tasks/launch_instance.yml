@@ -1,6 +1,5 @@
-# filename: coupled_task_group.yml
-# TODO add comment explaining what this does
-- name: Group of tasks that are tightly coupled
+# filename: launch_instance.yml
+- name: Repetitively launch an instance
   vars:
     max_retries: 8
     retry_delay: 20
