@@ -1,3 +1,7 @@
+- name: Gather package facts
+  ansible.builtin.package_facts:
+    manager: apt
+
 # https://docs.ansible.com/ansible/latest/collections/community/docker/docker_container_module.html
 - name: Kill and remove frontend containers
   become: true
@@ -8,6 +12,7 @@
   loop:
     - node
     - nginx
+  when: '"docker-ce" in ansible_facts.packages'
 
 - name: Recursively remove directory
   become: true

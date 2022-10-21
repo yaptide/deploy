@@ -109,4 +109,4 @@
 
 - name: Show IP
   ansible.builtin.debug:
-    msg: "To connect via ssh to the machine type: ssh {{ ansible_user }}@{{ floating_ip_facts.floating_ip.floating_ip_address }}"
+    msg: "To connect to the instance type: ssh {{ ansible_user }}@{{ floating_ip_facts.floating_ip.floating_ip_address }} "
