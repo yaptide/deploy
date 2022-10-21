@@ -71,7 +71,7 @@
   register: script_input_json_file_grid_proxy
 
 # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/copy_module.html
-- name: Create a file with initial username and password (without grid proxy)
+- name: Create a file with initial username and password (without grid proxy) # noqa: literal-compare
   ansible.builtin.copy:
     dest: '{{ backend_repo_workdir }}/yaptide/data/script_input.json'
     mode: '0640'
@@ -98,7 +98,7 @@
   register: script_input_json_file_no_grid_proxy
 
 # https://docs.ansible.com/ansible/latest/collections/community/docker/docker_compose_module.html
-- name: Clean volumes
+- name: Clean volumes # noqa: no-handler
   community.docker.docker_compose:
     project_src: '{{ backend_repo_workdir }}'
     state: absent
@@ -110,7 +110,7 @@
   community.docker.docker_compose:
     project_src: '{{ backend_repo_workdir }}'
 
-- name: Insert a first user into database
+- name: Insert a first user into database # noqa: no-handler
   community.docker.docker_container_exec:
     container: yaptide_flask
     command: python3 db_script.py
