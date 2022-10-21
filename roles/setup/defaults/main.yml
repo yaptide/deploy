@@ -2,4 +2,5 @@ apt_packages:
   - python3-pip
   - python3-venv
   - gfortran
+  - fail2ban
 ansible_become: true

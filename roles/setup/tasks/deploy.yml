@@ -10,6 +10,12 @@
     name: "{{ apt_packages }}"
     state: present
 
+- name: Start and enable fail2ban service
+  ansible.builtin.systemd:
+    state: started
+    name: fail2ban
+    enabled: true
+
 - name: Add Docker GPG apt Key
   ansible.builtin.apt_key:
     url: https://download.docker.com/linux/ubuntu/gpg
@@ -20,7 +26,7 @@
     repo: deb https://download.docker.com/linux/ubuntu focal stable
     state: present
 
-- name: Update apt and install docker-ce
+- name: Run apt update and install docker-ce
   ansible.builtin.apt:
     name: docker-ce
     update_cache: true
