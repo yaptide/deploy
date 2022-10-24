@@ -112,3 +112,16 @@ ansible-playbook site.yml -e mode=clean
 ```bash
 ansible-playbook cloud_instance.yml -e mode=clean
 ```
+
+8. Appendix, docker dynamic inventory:
+
+```bash
+ansible-inventory -i inventory/docker --graph
+```
+
+To create a docker container with the yaptide platform, run:
+
+```bash
+docker run -d -p 5000:5000 -p 80:80 --name yaptide ubuntu:latest
+docker exec -it yaptide sh -c "apt update && apt install -y python3-pip sudo"
+```
