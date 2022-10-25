@@ -1,2 +1,4 @@
 frontend_repo_workdir: '/home/ubuntu/ui'
 frontend_repo_version: master
+
+ansible_become: false
