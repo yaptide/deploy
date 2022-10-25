@@ -36,9 +36,19 @@
     state: started
     name: docker
     enabled: true
+  register: docker_service_status
+  until:  '"status" in docker_service_status and docker_service_status.status.ActiveState == "active"'
+  retries: 3
+  delay: 5
 
 - name: Install Docker Module for Python
   ansible.builtin.pip:
     name:
       - docker
       - docker-compose
+
+- name: adding user to the docker group
+  user:
+    name: "{{ ansible_user }}"
+    groups: docker
+    append: yes

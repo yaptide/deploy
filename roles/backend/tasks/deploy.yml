@@ -67,35 +67,35 @@
               }
           }
       ]
-  when: grid_proxy_stat.stat.exists
-  register: script_input_json_file_grid_proxy
+#  when: grid_proxy_stat.stat.exists
+#  register: script_input_json_file_grid_proxy
 
-# https://docs.ansible.com/ansible/latest/collections/ansible/builtin/copy_module.html
-- name: Create a file with initial username and password (without grid proxy) # noqa: literal-compare
-  ansible.builtin.copy:
-    dest: '{{ backend_repo_workdir }}/yaptide/data/script_input.json'
-    mode: '0640'
-    content: |
-      [
-          {
-              "OPERATION": "DELETE",
-              "TABLE": "User",
-              "DATA": {
-                  "LOGIN": "admin",
-              }
-          }
-          ,
-          {
-              "OPERATION": "INSERT",
-              "TABLE": "User",
-              "DATA": {
-                  "LOGIN": "admin",
-                  "PASSWORD": "{{ backend_password }}"
-              }
-          }
-      ]
-  when: grid_proxy_stat.stat.exists == false
-  register: script_input_json_file_no_grid_proxy
+# # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/copy_module.html
+# - name: Create a file with initial username and password (without grid proxy) # noqa: literal-compare
+#   ansible.builtin.copy:
+#     dest: '{{ backend_repo_workdir }}/yaptide/data/script_input.json'
+#     mode: '0640'
+#     content: |
+#       [
+#           {
+#               "OPERATION": "DELETE",
+#               "TABLE": "User",
+#               "DATA": {
+#                   "LOGIN": "admin",
+#               }
+#           }
+#           ,
+#           {
+#               "OPERATION": "INSERT",
+#               "TABLE": "User",
+#               "DATA": {
+#                   "LOGIN": "admin",
+#                   "PASSWORD": "{{ backend_password }}"
+#               }
+#           }
+#       ]
+#   when: grid_proxy_stat.stat.exists == false
+#   register: script_input_json_file_no_grid_proxy
 
 # https://docs.ansible.com/ansible/latest/collections/community/docker/docker_compose_module.html
 - name: Clean volumes # noqa: no-handler
@@ -103,7 +103,7 @@
     project_src: '{{ backend_repo_workdir }}'
     state: absent
     remove_volumes: true
-  when: script_input_json_file_grid_proxy is changed or script_input_json_file_no_grid_proxy is changed
+#  when: script_input_json_file_grid_proxy is changed or script_input_json_file_no_grid_proxy is changed
 
 # https://docs.ansible.com/ansible/latest/collections/community/docker/docker_compose_module.html
 - name: Run `docker-compose up` to bring up the backend
@@ -115,4 +115,4 @@
     container: yaptide_flask
     command: python3 db_script.py
     chdir: /usr/local/app/yaptide/data
-  when: script_input_json_file_grid_proxy is changed or script_input_json_file_no_grid_proxy is changed
+  #when: script_input_json_file_grid_proxy is changed or script_input_json_file_no_grid_proxy is changed
