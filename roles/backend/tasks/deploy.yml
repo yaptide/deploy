@@ -42,7 +42,7 @@
 - name: Insert a first user into database (without grid_proxy)
   community.docker.docker_container_exec:
     container: yaptide_flask
-    command: python3 yaptide/admin/db_manage.py add-user admin --password {{ backend_password }}
+    command: 'python3 yaptide/admin/db_manage.py add-user admin --password {{ backend_password }}'
     chdir: /usr/local/app/
 
 - name: Copy grid proxy to the container
