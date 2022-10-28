@@ -40,11 +40,14 @@
     name: node
     image: node
     env:
-     REACT_APP_BACKEND_URL: 'http://{{ my_public_ip.ansible_facts.ipify_public_ip }}:5000'
+      REACT_APP_BACKEND_URL: 'http://{{ my_public_ip.ansible_facts.ipify_public_ip }}:5000'
     working_dir: '/workspace'
-    command: /bin/bash -c "apt update; apt install -y python3-pip; cp -r /ui/. /workspace; ls -alh .; npm install; npm run build; npm run fix-web-dev; cp -r build/. /build"
+    command:
+      - /bin/bash -c "apt update; apt install -y python3-pip"
+      - /bin/bash -c "cp -r /ui/. /workspace; ls -alh ."
+      - /bin/bash -c "npm install; npm run build; npm run fix-web-dev; cp -r build/. /build"
     detach: false
-    #auto_remove: true
+    # auto_remove: true
     volumes:
       - '{{ frontend_repo_workdir }}:/ui:ro'
       - yaptide_frontend_build_volume:/build:rw

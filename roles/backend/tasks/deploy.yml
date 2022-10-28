@@ -30,89 +30,36 @@
 - name: Copy grid proxy
   ansible.builtin.copy:
     src: grid_proxy
-    dest: '{{ backend_repo_workdir }}/yaptide/data/'
+    dest: '{{ backend_repo_workdir }}'
     mode: '0640'
   when: grid_proxy_stat.stat.exists
 
-# https://docs.ansible.com/ansible/latest/collections/ansible/builtin/copy_module.html
-- name: Create a file with initial username and password (with grid proxy)
-  ansible.builtin.copy:
-    dest: '{{ backend_repo_workdir }}/yaptide/data/script_input.json'
-    mode: '0640'
-    content: |
-      [
-          {
-              "OPERATION": "DELETE",
-              "TABLE": "User",
-              "DATA": {
-                  "LOGIN": "admin",
-              }
-          }
-          ,
-          {
-              "OPERATION": "UPDATE",
-              "TABLE": "User",
-              "DATA": {
-                  "LOGIN": "admin",
-                  "PASSWORD": "{{ backend_password }}"
-              }
-          }
-          ,
-          {
-              "OPERATION": "UPDATE",
-              "TABLE": "User",
-              "DATA": {
-                  "LOGIN": "admin",
-                  "GRID_PROXY_NAME": "grid_proxy"
-              }
-          }
-      ]
-#  when: grid_proxy_stat.stat.exists
-#  register: script_input_json_file_grid_proxy
-
-# # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/copy_module.html
-# - name: Create a file with initial username and password (without grid proxy) # noqa: literal-compare
-#   ansible.builtin.copy:
-#     dest: '{{ backend_repo_workdir }}/yaptide/data/script_input.json'
-#     mode: '0640'
-#     content: |
-#       [
-#           {
-#               "OPERATION": "DELETE",
-#               "TABLE": "User",
-#               "DATA": {
-#                   "LOGIN": "admin",
-#               }
-#           }
-#           ,
-#           {
-#               "OPERATION": "INSERT",
-#               "TABLE": "User",
-#               "DATA": {
-#                   "LOGIN": "admin",
-#                   "PASSWORD": "{{ backend_password }}"
-#               }
-#           }
-#       ]
-#   when: grid_proxy_stat.stat.exists == false
-#   register: script_input_json_file_no_grid_proxy
-
 # https://docs.ansible.com/ansible/latest/collections/community/docker/docker_compose_module.html
-- name: Clean volumes # noqa: no-handler
-  community.docker.docker_compose:
-    project_src: '{{ backend_repo_workdir }}'
-    state: absent
-    remove_volumes: true
-#  when: script_input_json_file_grid_proxy is changed or script_input_json_file_no_grid_proxy is changed
+# - name: Clean volumes # noqa: no-handler
+#   community.docker.docker_compose:
+#     project_src: '{{ backend_repo_workdir }}'
+#     state: absent
+#     remove_volumes: true
 
 # https://docs.ansible.com/ansible/latest/collections/community/docker/docker_compose_module.html
 - name: Run `docker-compose up` to bring up the backend
   community.docker.docker_compose:
     project_src: '{{ backend_repo_workdir }}'
 
-- name: Insert a first user into database # noqa: no-handler
+- name: Insert a first user into database (without grid_proxy)
   community.docker.docker_container_exec:
     container: yaptide_flask
-    command: python3 db_script.py
-    chdir: /usr/local/app/yaptide/data
-  #when: script_input_json_file_grid_proxy is changed or script_input_json_file_no_grid_proxy is changed
+    command: python3 yaptide/admin/db_manage.py add-user admin --password {{ backend_password }}
+    chdir: /usr/local/app/
+
+- name: Copy grid proxy to the container
+  ansible.builtin.command:
+    cmd: 'docker cp {{ backend_repo_workdir }}/grid_proxy yaptide_flask:/usr/local/app/grid_proxy'
+  when: grid_proxy_stat.stat.exists
+
+- name: Update user with grid_proxy (if exists)
+  community.docker.docker_container_exec:
+    container: yaptide_flask
+    command: python3 yaptide/admin/db_manage.py update-user admin --proxy grid_proxy
+    chdir: /usr/local/app/
+  when: grid_proxy_stat.stat.exists

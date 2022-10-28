@@ -1,0 +1,3 @@
+ansible_become: false
+
+frontend_repo_workdir: '/data/grzanka/tmp'
