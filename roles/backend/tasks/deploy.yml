@@ -35,13 +35,6 @@
   when: grid_proxy_stat.stat.exists
 
 # https://docs.ansible.com/ansible/latest/collections/community/docker/docker_compose_module.html
-# - name: Clean volumes # noqa: no-handler
-#   community.docker.docker_compose:
-#     project_src: '{{ backend_repo_workdir }}'
-#     state: absent
-#     remove_volumes: true
-
-# https://docs.ansible.com/ansible/latest/collections/community/docker/docker_compose_module.html
 - name: Run `docker-compose up` to bring up the backend
   community.docker.docker_compose:
     project_src: '{{ backend_repo_workdir }}'
