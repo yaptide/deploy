@@ -41,6 +41,7 @@
     image: node:18
     working_dir: /workspace
     state: started
+    detach: false
     cleanup: true
     output_logs: true
     env:
@@ -51,6 +52,11 @@
     volumes:
       - '{{ frontend_repo_workdir }}:/ui:ro'
       - yaptide_frontend_build_volume:/build:rw
+  register: build_frontend_app_output
+
+- name: Print output of build frontend app
+  ansible.builtin.debug:
+    msg: '{{ build_frontend_app_output.stdout_lines }}'
 
 
 # https://docs.ansible.com/ansible/latest/collections/community/docker/docker_container_module.html

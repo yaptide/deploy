@@ -55,9 +55,14 @@
     cmd: 'docker cp {{ backend_repo_workdir }}/grid_proxy yaptide_flask:/usr/local/app/grid_proxy'
   when: grid_proxy_stat.stat.exists
 
-# - name: Update user with grid_proxy (if exists)
-#   community.docker.docker_container_exec:
-#     container: yaptide_flask
-#     command: python3 yaptide/admin/db_manage.py update-user admin --proxy grid_proxy
-#     chdir: /usr/local/app/
-#   when: grid_proxy_stat.stat.exists
+- name: Update user with grid_proxy (if exists)
+  community.docker.docker_container_exec:
+    container: yaptide_flask
+    command: python3 yaptide/admin/db_manage.py update-user admin --proxy grid_proxy
+    chdir: /usr/local/app/
+  when: grid_proxy_stat.stat.exists
+  register: update_user_output
+
+- name: Print output of update-user command
+  ansible.builtin.debug:
+    msg: '{{ update_user_output.stdout_lines }}'
