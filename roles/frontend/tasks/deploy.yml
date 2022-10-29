@@ -35,6 +35,7 @@
     recreate: always
 
 # https://docs.ansible.com/ansible/latest/collections/community/docker/docker_container_module.html
+# this may be a time consuming task
 - name: Initiating build frontend app
   community.docker.docker_container:
     name: node
@@ -43,12 +44,11 @@
     state: started
     detach: false
     cleanup: true
-    output_logs: true
     env:
       REACT_APP_BACKEND_URL: 'http://{{ my_public_ip.ansible_facts.ipify_public_ip }}:5000'
     command: |
       /bin/bash
-      -c "cp -r /ui/. .; apt update; apt install -y python3-pip; npm install; npm run build; npm run fix-web-dev; cp -r /workspace/build/. /build;"
+      -c "cp -r /ui/. .; apt-get -qq update; apt-get -qq -o Dpkg::Use-Pty=0 install python3-pip; npm install; npm run build; npm run fix-web-dev; cp -r /workspace/build/. /build;"
     volumes:
       - '{{ frontend_repo_workdir }}:/ui:ro'
       - yaptide_frontend_build_volume:/build:rw
@@ -56,7 +56,7 @@
 
 - name: Print output of build frontend app
   ansible.builtin.debug:
-    msg: '{{ build_frontend_app_output.stdout_lines }}'
+    msg: "{{ build_frontend_app_output.container.Output.split('\n') }}"
 
 
 # https://docs.ansible.com/ansible/latest/collections/community/docker/docker_container_module.html

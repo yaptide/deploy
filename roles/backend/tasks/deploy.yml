@@ -4,8 +4,9 @@
     repo: 'https://github.com/yaptide/yaptide'
     dest: '{{ backend_repo_workdir }}'
     version: '{{ backend_repo_version }}'
-    force: true  # at later stages repo can be manually modified, therefore we do a foce checkout
+    force: true  # at later stages repo can be manually modified, therefore we do a force checkout
 
+# https://docs.ansible.com/ansible/latest/collections/ansible/builtin/copy_module.html
 - name: Copy shieldhit binary to the backend instance
   ansible.builtin.copy:
     src: shieldhit
@@ -22,11 +23,12 @@
 - name: Check if local file grid_proxy exists
   ansible.builtin.stat:
     path: grid_proxy
+  delegate_to: localhost  # we do the check on the local machine from which the playbook is run
   vars:
-    ansible_become: false
-  delegate_to: localhost
+    ansible_become: false # we do not need to become root on the local machine
   register: grid_proxy_stat
 
+# Copy grid_proxy from localhost to the backend instance (if exists on localhost)
 - name: Copy grid proxy
   ansible.builtin.copy:
     src: grid_proxy
