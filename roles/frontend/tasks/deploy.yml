@@ -47,8 +47,8 @@
     env:
       REACT_APP_BACKEND_URL: 'http://{{ my_public_ip.ansible_facts.ipify_public_ip }}:5000'
     command: |
-      /bin/bash
-      -c "cp -r /ui/. .; apt-get -qq update; apt-get -qq -o Dpkg::Use-Pty=0 install python3-pip; npm install; npm run build; npm run fix-web-dev; cp -r /workspace/build/. /build;"
+      /bin/bash -c
+      "cp -r /ui/. .; apt-get -qq update; apt-get -qq install python3-pip; npm install; npm run build; npm run fix-web-dev; cp -r /workspace/build/. /build;"
     volumes:
       - '{{ frontend_repo_workdir }}:/ui:ro'
       - yaptide_frontend_build_volume:/build:rw
