@@ -67,4 +67,4 @@
 
 - name: Print output of update-user command
   ansible.builtin.debug:
-    msg: '{{ update_user_output.stdout_lines }}'
+    msg: '{{ update_user_output }}'
