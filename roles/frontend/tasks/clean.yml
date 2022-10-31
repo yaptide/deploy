@@ -12,7 +12,7 @@
   loop:
     - node
     - nginx
-  when: '"docker-ce" in ansible_facts.packages'
+  when: '"docker-ce" in ansible_facts.packages or ansible_connection == "local"'
 
 - name: Remove volumes
   community.docker.docker_volume:

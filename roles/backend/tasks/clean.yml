@@ -22,7 +22,10 @@
     state: absent
     remove_images: all
     remove_volumes: true
-  when: docker_compose_file_status.stat.exists and "docker-ce" in ansible_facts.packages and docker_compose_installation_status is not failed
+  when: 
+    - docker_compose_file_status.stat.exists
+    - ("docker-ce" in ansible_facts.packages) or (ansible_connection == "local")
+    - docker_compose_installation_status is not failed
 
 - name: Recursively remove directory with clone repo
   ansible.builtin.file:
