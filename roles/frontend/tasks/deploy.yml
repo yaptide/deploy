@@ -5,15 +5,24 @@
     dest: '{{ frontend_repo_workdir }}'
     version: '{{ frontend_repo_version }}'
 
-# Gather IP facts from ipify.org
-# TODO think of better way of assiging floating IP to a variable by openstack role and passing it to frontend role
-- name: Get my public IP
-  community.general.ipify_facts:
-  register: my_public_ip
 
-- name: Print the public IP
-  ansible.builtin.debug:
-    msg: "Public IP is {{ my_public_ip.ansible_facts.ipify_public_ip }}"
+# backend_hostname: "localhost"
+- name: Setup
+  when: ansible_connection != 'local'
+  block:
+  # Gather IP facts from ipify.org
+  - name: Get my public IP
+    community.general.ipify_facts:
+    register: my_public_ip
+
+  - name: Print the public IP
+    ansible.builtin.debug:
+      msg: "Public IP is {{ my_public_ip.ansible_facts.ipify_public_ip }}"
+  
+  - name: Register IP
+    ansible.builtin.set_fact:
+      backend_hostname: "{{ my_public_ip.ansible_facts.ipify_public_ip }}"
+      frontend_hostname: "{{ my_public_ip.ansible_facts.ipify_public_ip }}"
 
 - name: Stop nginx container
   community.docker.docker_container:
@@ -45,7 +54,7 @@
     detach: false
     cleanup: true
     env:
-      REACT_APP_BACKEND_URL: 'http://{{ my_public_ip.ansible_facts.ipify_public_ip }}:5000'
+      REACT_APP_BACKEND_URL: 'http://{{ backend_hostname }}:5000'
     command: |
       /bin/bash -c
       "cp -r /ui/. .; apt-get -qq update; apt-get -qq install python3-pip; npm install; npm run build; npm run fix-web-dev; cp -r /workspace/build/. /build;"
@@ -72,4 +81,4 @@
 
 - name: Show where frontend is running
   ansible.builtin.debug:
-    msg: "Yaptide platform is available at http://{{ my_public_ip.ansible_facts.ipify_public_ip }} "
+    msg: "Yaptide platform is available at http://{{ frontend_hostname }} "

@@ -1,4 +1,5 @@
 ansible_become: false
 
-backend_repo_workdir: '/data/grzanka/tmp/yaptide'
-frontend_repo_workdir: '/data/grzanka/tmp/ui'
+backend_repo_workdir: '{{ playbook_dir }}/yaptide'
+frontend_repo_workdir: '{{ playbook_dir }}/ui'
+backend_hostname: inventory_hostname
