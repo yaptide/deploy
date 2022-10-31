@@ -2,6 +2,18 @@
   ansible.builtin.package_facts:
     manager: apt
 
+- name: Check if frontend repo exists
+  ansible.builtin.stat:
+    path: '{{ backend_repo_workdir }}'
+  register: frontend_repo_status
+
+- name: Check if docker pip package is installed
+  ansible.builtin.pip:
+    name: docker
+  check_mode: true
+  register: docker_installation_status
+  ignore_errors: true
+
 # https://docs.ansible.com/ansible/latest/collections/community/docker/docker_container_module.html
 - name: Kill and remove frontend containers
   become: true
@@ -12,12 +24,16 @@
   loop:
     - node
     - nginx
-  when: '"docker-ce" in ansible_facts.packages or ansible_connection == "local"'
+  when:
+    - '"docker-ce" in ansible_facts.packages or ansible_connection == "local"'
+    - docker_installation_status is not failed
 
 - name: Remove volumes
   community.docker.docker_volume:
     name: yaptide_frontend_build_volume
     state: absent
+  when:
+    - docker_installation_status is not failed
 
 - name: Recursively remove directory
   become: true
