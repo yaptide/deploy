@@ -2,4 +2,3 @@ ansible_become: false
 
 backend_repo_workdir: '{{ playbook_dir }}/yaptide'
 frontend_repo_workdir: '{{ playbook_dir }}/ui'
-backend_hostname: inventory_hostname
