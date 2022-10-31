@@ -1,58 +1,62 @@
-# https://docs.ansible.com/ansible/latest/collections/ansible/builtin/apt_module.html
-- name: Update apt cache
-  ansible.builtin.apt:
-    update_cache: true
-    state: present
+- name: Setup
+  when: ansible_connection != 'local'
+  block:
 
-# https://docs.ansible.com/ansible/latest/collections/ansible/builtin/apt_module.html
-- name: Install necessary packages
-  ansible.builtin.apt:
-    name: "{{ apt_packages }}"
-    state: present
+    # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/apt_module.html
+    - name: Update apt cache
+      ansible.builtin.apt:
+        update_cache: true
+        state: present
 
-- name: Start and enable fail2ban service
-  ansible.builtin.systemd:
-    state: started
-    name: fail2ban
-    enabled: true
+    # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/apt_module.html
+    - name: Install necessary packages
+      ansible.builtin.apt:
+        name: "{{ apt_packages }}"
+        state: present
 
-- name: Add Docker GPG apt Key
-  ansible.builtin.apt_key:
-    url: https://download.docker.com/linux/ubuntu/gpg
-    state: present
+    - name: Start and enable fail2ban service
+      ansible.builtin.systemd:
+        state: started
+        name: fail2ban
+        enabled: true
 
-- name: Add Docker Repository
-  ansible.builtin.apt_repository:
-    repo: deb https://download.docker.com/linux/ubuntu focal stable
-    state: present
+    - name: Add Docker GPG apt Key
+      ansible.builtin.apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
 
-- name: Run apt update and install docker-ce
-  ansible.builtin.apt:
-    name: docker-ce
-    update_cache: true
+    - name: Add Docker Repository
+      ansible.builtin.apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu focal stable
+        state: present
 
-- name: Start and enable docker service
-  ansible.builtin.systemd:
-    state: started
-    name: docker
-    enabled: true
-  register: docker_service_status
-  until: '"status" in docker_service_status and docker_service_status.status.ActiveState == "active"'
-  retries: 3
-  delay: 5
+    - name: Run apt update and install docker-ce
+      ansible.builtin.apt:
+        name: docker-ce
+        update_cache: true
 
-- name: Install Docker Module for Python
-  ansible.builtin.pip:
-    name:
-      - docker
-      - docker-compose
+    - name: Start and enable docker service
+      ansible.builtin.systemd:
+        state: started
+        name: docker
+        enabled: true
+      register: docker_service_status
+      until: '"status" in docker_service_status and docker_service_status.status.ActiveState == "active"'
+      retries: 3
+      delay: 5
 
-- name: Adding user to the docker group
-  ansible.builtin.user:
-    name: "{{ ansible_user }}"
-    groups: docker
-    append: true
+    - name: Install Docker Module for Python
+      ansible.builtin.pip:
+        name:
+          - docker
+          - docker-compose
 
-# we need to reset connection, so that ansible will use new group membership
-- name: Reset ssh connection
-  ansible.builtin.meta: reset_connection
+    - name: Adding user to the docker group
+      ansible.builtin.user:
+        name: "{{ ansible_user }}"
+        groups: docker
+        append: true
+
+    # we need to reset connection, so that ansible will use new group membership
+    - name: Reset ssh connection
+      ansible.builtin.meta: reset_connection

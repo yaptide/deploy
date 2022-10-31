@@ -1,3 +1,4 @@
 ansible_become: false
 
-frontend_repo_workdir: '/data/grzanka/tmp'
+backend_repo_workdir: '/data/grzanka/tmp/yaptide'
+frontend_repo_workdir: '/data/grzanka/tmp/ui'
