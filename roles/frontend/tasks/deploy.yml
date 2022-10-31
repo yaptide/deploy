@@ -11,18 +11,18 @@
   when: ansible_connection != 'local'
   block:
   # Gather IP facts from ipify.org
-  - name: Get my public IP
-    community.general.ipify_facts:
-    register: my_public_ip
+    - name: Get my public IP
+      community.general.ipify_facts:
+      register: my_public_ip
 
-  - name: Print the public IP
-    ansible.builtin.debug:
-      msg: "Public IP is {{ my_public_ip.ansible_facts.ipify_public_ip }}"
-  
-  - name: Register IP
-    ansible.builtin.set_fact:
-      backend_hostname: "{{ my_public_ip.ansible_facts.ipify_public_ip }}"
-      frontend_hostname: "{{ my_public_ip.ansible_facts.ipify_public_ip }}"
+    - name: Print the public IP
+      ansible.builtin.debug:
+        msg: "Public IP is {{ my_public_ip.ansible_facts.ipify_public_ip }}"
+
+    - name: Register IP
+      ansible.builtin.set_fact:
+        backend_hostname: "{{ my_public_ip.ansible_facts.ipify_public_ip }}"
+        frontend_hostname: "{{ my_public_ip.ansible_facts.ipify_public_ip }}"
 
 - name: Stop nginx container
   community.docker.docker_container:
