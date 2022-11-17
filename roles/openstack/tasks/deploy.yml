@@ -10,7 +10,7 @@
   openstack.cloud.keypair:
     state: present
     name: "{{ key_name }}"
-    public_key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+    public_key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"  # noqa jinja[invalid]
 
 # https://docs.ansible.com/ansible/latest/collections/openstack/cloud/network_module.html
 - name: Create the network
