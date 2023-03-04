@@ -20,28 +20,12 @@
     mode: '0640'
     content: 'SHIELDHIT_PATH: {{ backend_repo_workdir }}/shieldhit'
 
-- name: Check if local file grid_proxy exists
-  ansible.builtin.stat:
-    path: grid_proxy
-  delegate_to: localhost  # we do the check on the local machine from which the playbook is run
-  vars:
-    ansible_become: false # we do not need to become root on the local machine
-  register: grid_proxy_stat
-
-# Copy grid_proxy from localhost to the backend instance (if exists on localhost)
-- name: Copy grid proxy
-  ansible.builtin.copy:
-    src: grid_proxy
-    dest: '{{ backend_repo_workdir }}'
-    mode: '0640'
-  when: grid_proxy_stat.stat.exists
-
 # https://docs.ansible.com/ansible/latest/collections/community/docker/docker_compose_module.html
 - name: Run `docker-compose up` to bring up the backend
   community.docker.docker_compose:
     project_src: '{{ backend_repo_workdir }}'
 
-- name: Insert a first user into database (without grid_proxy)
+- name: Insert a first user into database
   community.docker.docker_container_exec:
     container: yaptide_flask
     command: 'python3 yaptide/admin/db_manage.py add-user admin --password {{ backend_password }}'
@@ -51,19 +35,6 @@
 - name: Print output of add-user command
   ansible.builtin.debug:
     msg: '{{ add_user_output.stdout_lines }}'
-
-- name: Copy grid proxy to the container
-  ansible.builtin.command:
-    cmd: 'docker cp {{ backend_repo_workdir }}/grid_proxy yaptide_flask:/usr/local/app/grid_proxy'
-  when: grid_proxy_stat.stat.exists
-
-- name: Update user with grid_proxy (if exists)
-  community.docker.docker_container_exec:
-    container: yaptide_flask
-    command: python3 yaptide/admin/db_manage.py update-user admin --proxy grid_proxy
-    chdir: /usr/local/app/
-  when: grid_proxy_stat.stat.exists
-  register: update_user_output
 
 - name: Print output of update-user command
   ansible.builtin.debug:
