@@ -4,20 +4,28 @@
 
 The aim of this project it to provide an automated deploy of the yaptide platform to the OpenStack cloud platform.
 The deployment is managed by the ansible playbooks. In this project two major playbooks are used:
- - `cloud_instance.yml` - playbook for creating (and teardown) a cloud instance
- - `site.yml` - main playbook for deploying the yaptide platform
+ - `cloud_instance.yml` - for creating (and teardown) a cloud instance
+ - `site.yml` - for deploying the yaptide platform
 
 ## Instructions
 
 1. Downloand the `openrc.sh` file from the OpenStack dashboard and source it. If it asks for a password, use the one from the dashboard.
 
-2. Install necessary requirements:
+```
+. plgrid-ext-plggyaptide-openrc.sh
+```
+
+2. Install requirements necesary for running the ansible playbooks:
 
 ```
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 ```
+
+In our projects we use `ansible` Python package. It uses SSH to connect to the remote machines.
+As for now the `ansible` package does not work natively on Windows.
+The only way to run it from Windows is to use the `WSL` (Windows Subsystem for Linux).
 
 3. Query the dynamic inventory:
 
@@ -39,21 +47,21 @@ This step may take about 3-4 minutes, so be patient. Once it is completed, a mac
 ansible-playbook cloud_instance.yml
 ```
 
-Once the instance is created, you can run time consuming package upgrade task on it. This step may take about 10-15 minutes, so be patient.
+Once the instance is created, you can optionally run time consuming package upgrade task on it. This step may take about 10-15 minutes, so be patient.
 
 ```bash
 ansible yaptide -m apt -a "update_cache=yes upgrade=dist" --become
 ansible yaptide -m reboot --become
 ```
 
-In case you have an existing regular or snaphot image, you can use it to create an instance.
+In case you have an existing snaphot image, you can use it to create an instance.
 This will save you some time, as the image will be used instead of installing all the packages from scratch.
 
 ```bash
 ansible-playbook cloud_instance.yml -e "image_name='Ubuntu 20.04 LTS Snapshot 20221021'"
 ```
 
-To get larger flavor, use the following command:
+To get larger flavor with more CPUs or RAM, use the following command:
 
 ```bash
 ansible-playbook cloud_instance.yml -e "flavor_name='h1.large'"
@@ -65,19 +73,13 @@ To create an instance with a different name, use the following command:
 ansible-playbook cloud_instance.yml -e "instance_name='yaptide2'"
 ```
 
-4a
-
-For some time we would need to generate a grid proxy. This can be done by running the following command:
-
-```bash
-export ARES_USERNAME=plgkongruencj
-read -s p && echo $p | ssh -l $ARES_USERNAME ares.cyfronet.pl "grid-proxy-init -q -pwstdin && cat /tmp/x509up_u\`id -u\`" > grid_proxy && unset p
-```
-
 5. Deploy the yaptide platform on the instance.
 At this stage necessary packages will be installed and respective repositories cloned.
 The backend will be served on port 5000 and the frontend on port 80.
 This step is time consuming and may take more than 10 minutes.
+
+We assume that you have locally a binary of `shieldhit` simulator stored in the same location as the `site.yml` playbook.
+It will be copied by the playbook to the instance and used for running the simulation.
 
 ```bash
 ansible-playbook site.yml
@@ -100,6 +102,9 @@ To deploy on an instance with a different name, use the following command:
 ```bash
 ansible-playbook site.yml -e "variable_host='yaptide2'"
 ```
+
+Once the `yaptide` platform is deployed, you can access it by visiting the public IP of the instance in your browser.
+The password to the admin account can be found in the file `roles/backend/files/password` in the repository.
 
 6. To remove the yaptide platform from the instance, run:
 
