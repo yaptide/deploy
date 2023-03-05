@@ -35,7 +35,3 @@
 - name: Print output of add-user command
   ansible.builtin.debug:
     msg: '{{ add_user_output.stdout_lines }}'
-
-- name: Print output of update-user command
-  ansible.builtin.debug:
-    msg: '{{ update_user_output }}'
