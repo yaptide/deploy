@@ -1,4 +1,5 @@
-- hosts: "{{ variable_host | default('yaptide') }}"
+- name: Deploy yaptide
+  hosts: "{{ variable_host | default('yaptide') }}"
   gather_facts: false
   roles:
     - role: setup
