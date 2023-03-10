@@ -13,12 +13,21 @@
     dest: '{{ backend_repo_workdir }}'
     mode: '0750'
 
-# https://docs.ansible.com/ansible/latest/collections/ansible/builtin/copy_module.html
-- name: Create a file with environment variables, needed by docker-compose
-  ansible.builtin.copy:
-    dest: '{{ backend_repo_workdir }}/.env'
+# get fact about number of cores
+# # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/setup_module.html
+- name: Get number of cores
+  ansible.builtin.setup:
+    filter: ansible_processor_vcpus
+  register: vcpus_output
+
+- name: Insert/Update "Match User" configuration block in /etc/ssh/sshd_config
+  ansible.builtin.blockinfile:
+    path: '{{ backend_repo_workdir }}/.env'
     mode: '0640'
-    content: 'SHIELDHIT_PATH: {{ backend_repo_workdir }}/shieldhit'
+    create: true
+    block: |
+      SHIELDHIT_PATH = "{{ backend_repo_workdir }}/shieldhit"
+      MAX_CORES = {{ [1, vcpus_output.ansible_facts.ansible_processor_vcpus - 1]|max }}
 
 # https://docs.ansible.com/ansible/latest/collections/community/docker/docker_compose_module.html
 - name: Run `docker-compose up` to bring up the backend
