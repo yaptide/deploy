@@ -27,7 +27,7 @@
     create: true
     block: |
       SHIELDHIT_PATH = "{{ backend_repo_workdir }}/shieldhit"
-      MAX_CORES = {{ [1, vcpus_output.ansible_facts.ansible_processor_vcpus - 2]|max }}
+      MAX_CORES = {{ [1, vcpus_output.ansible_facts.ansible_processor_vcpus - 2] | max }}
 
 # https://docs.ansible.com/ansible/latest/collections/community/docker/docker_compose_module.html
 - name: Run `docker-compose up` to bring up the backend
