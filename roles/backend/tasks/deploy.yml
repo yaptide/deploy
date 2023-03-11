@@ -20,13 +20,13 @@
     filter: ansible_processor_vcpus
   register: vcpus_output
 
-- name: Insert/Update "Match User" configuration block in /etc/ssh/sshd_config
+- name: Create .env file with SHIELDHIT_PATH and MAX_CORES
   ansible.builtin.blockinfile:
     path: '{{ backend_repo_workdir }}/.env'
     mode: '0640'
     create: true
     block: |
-      SHIELDHIT_PATH = "{{ backend_repo_workdir }}/shieldhit"
+      SHIELDHIT_PATH = shieldhit
       MAX_CORES = {{ [1, vcpus_output.ansible_facts.ansible_processor_vcpus - 2] | max }}
 
 # https://docs.ansible.com/ansible/latest/collections/community/docker/docker_compose_module.html
