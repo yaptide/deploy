@@ -38,12 +38,19 @@
     keep_volumes: false
     auto_remove: true
 
+# https://docs.ansible.com/ansible/latest/collections/community/docker/docker_volume_module.html
+# equivalent of:
+# docker volume create yaptide_frontend_build_volume
 - name: Create a volume
   community.docker.docker_volume:
     name: yaptide_frontend_build_volume
     recreate: always
 
 # https://docs.ansible.com/ansible/latest/collections/community/docker/docker_container_module.html
+# equivalent of:
+# REACT_APP_BACKEND_URL=http://149.156.182.181:5000  docker run -v /home/ubuntu/ui/:/ui:ro \
+#  -v yaptide_frontend_build_volume:/build:rw -w /workspace node:18 /bin/bash -c \
+# "cp -r /ui/. .; apt-get -qq update; apt-get -qq install python3-pip; npm install; npm run build; npm run fix-web-dev; cp -r /workspace/build/. /build;"
 # this may be a time consuming task
 - name: Initiating build frontend app
   community.docker.docker_container:
@@ -69,6 +76,8 @@
 
 
 # https://docs.ansible.com/ansible/latest/collections/community/docker/docker_container_module.html
+# equivalent of:
+# docker run -d -p 80:80 -v yaptide_frontend_build_volume:/usr/share/nginx/html:ro nginx
 - name: Serve frontend using nginx
   community.docker.docker_container:
     name: nginx
