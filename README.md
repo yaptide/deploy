@@ -64,7 +64,13 @@ ansible-playbook cloud_instance.yml -e "image_name='Ubuntu 20.04 LTS Snapshot 20
 To get larger flavor with more CPUs or RAM, use the following command:
 
 ```bash
-ansible-playbook cloud_instance.yml -e "flavor_name='h1.large'"
+ansible-playbook cloud_instance.yml -e "flavor_name='h2.large'"
+```
+
+You can combine both options:
+    
+```bash
+ansible-playbook cloud_instance.yml -e "image_name='Ubuntu 20.04 LTS Snapshot 20221021'" -e "flavor_name='h2.large'"
 ```
 
 To create an instance with a different name, use the following command:
