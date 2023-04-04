@@ -58,7 +58,7 @@ In case you have an existing snaphot image, you can use it to create an instance
 This will save you some time, as the image will be used instead of installing all the packages from scratch.
 
 ```bash
-ansible-playbook cloud_instance.yml -e "image_name='Ubuntu 20.04 LTS Snapshot 20221021'"
+ansible-playbook cloud_instance.yml -e "image_name='Ubuntu 20.04 LTS Snapshot 20230404'"
 ```
 
 To get larger flavor with more CPUs or RAM, use the following command:
@@ -70,8 +70,9 @@ ansible-playbook cloud_instance.yml -e "flavor_name='h2.large'"
 You can combine both options:
     
 ```bash
-ansible-playbook cloud_instance.yml -e "image_name='Ubuntu 20.04 LTS Snapshot 20221021'" -e "flavor_name='h2.large'"
+ansible-playbook cloud_instance.yml -e "image_name='Ubuntu 22.04 LTS Snapshot (20230404)'" -e "flavor_name='h2.large'"
 ```
+
 
 To create an instance with a different name, use the following command:
 

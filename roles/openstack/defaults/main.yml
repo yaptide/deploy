@@ -1,8 +1,8 @@
 instance_hostname: "yaptide"
 
-image_name: "Ubuntu 20.04 LTS (20201016)"
+image_name: "Ubuntu 22.04 LTS Snapshot 20230404"
 key_name: "ansible_key"
-flavor_name: "c1.small"
+flavor_name: "h2.large"
 
 network_name: "yaptide_network"
 subnet_name: "yaptide_subnet"
