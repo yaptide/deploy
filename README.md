@@ -70,8 +70,9 @@ ansible-playbook cloud_instance.yml -e "flavor_name='h2.large'"
 You can combine both options:
     
 ```bash
-ansible-playbook cloud_instance.yml -e "image_name='Ubuntu 20.04 LTS Snapshot 20230404'" -e "flavor_name='h2.large'"
+ansible-playbook cloud_instance.yml -e "image_name='Ubuntu 22.04 LTS Snapshot (20230404)'" -e "flavor_name='h2.large'"
 ```
+
 
 To create an instance with a different name, use the following command:
 
