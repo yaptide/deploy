@@ -1,4 +1,4 @@
-# OpenStack yaptide deploy
+# Deploy of the yaptide platform to the OpenStack cloud platform
 
 ## The aim
 
@@ -6,6 +6,35 @@ The aim of this project it to provide an automated deploy of the yaptide platfor
 The deployment is managed by the ansible playbooks. In this project two major playbooks are used:
  - `cloud_instance.yml` - for creating (and teardown) a cloud instance
  - `site.yml` - for deploying the yaptide platform
+
+## Local deployment
+
+1. Install requirements necesary for running the ansible playbooks:
+
+```
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
+
+In our projects we use `ansible` Python package. It uses SSH to connect to the remote machines.
+As for now the `ansible` package does not work natively on Windows.
+The only way to run it from Windows is to use the `WSL` (Windows Subsystem for Linux).
+
+2. Deploy the yaptide platform on the local machine.
+
+We assume you have the latest binary of the `shieldhit` simulator locally stored in the same location as the `site.yml` playbook.
+It will be copied by the playbook to the instance and used for running the simulation.
+
+```bash
+ansible-playbook site.yml -i environments/local
+```
+
+3. To remove the yaptide platform from the instance, run:
+
+```bash
+ansible-playbook site.yml -i environments/local -e mode=clean
+```
 
 ## Instructions
 
