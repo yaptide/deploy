@@ -2,3 +2,5 @@ ansible_become: false
 
 backend_repo_workdir: '{{ playbook_dir }}/yaptide'
 frontend_repo_workdir: '{{ playbook_dir }}/ui'
+
+ansible_python_interpreter: venv/bin/python
