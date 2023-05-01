@@ -1,14 +1,8 @@
 # Old key needs to be deleted prior to creating a new one
 # https://docs.ansible.com/ansible/latest/collections/openstack/cloud/keypair_module.html
-- name: Delete old key
+- name: Replace a keypair with one assigned to this machine
   openstack.cloud.keypair:
-    state: absent
-    name: "{{ key_name }}"
-
-# https://docs.ansible.com/ansible/latest/collections/openstack/cloud/keypair_module.html
-- name: Create a keypair
-  openstack.cloud.keypair:
-    state: present
+    state: replace
     name: "{{ key_name }}"
     public_key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"  # noqa jinja[invalid]
 
@@ -95,7 +89,7 @@
   register: wait_for_ssh
   changed_when: false
   until: wait_for_ssh is succeeded
-  retries: 10
+  retries: 15
   connection: local
 
 - name: Scan for ssh public key
