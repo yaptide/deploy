@@ -1,8 +1,15 @@
 # Old key needs to be deleted prior to creating a new one
+# https://docs.ansible.com/ansible/latest/collections/openstack/cloud/keypair_module.html
+- name: Replace a keypair with one assigned to this machine
+  openstack.cloud.keypair:
+    state: replace
+    name: "{{ key_name }}"
+    public_key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"  # noqa jinja[invalid]
+
 # https://docs.ansible.com/ansible/latest/collections/openstack/cloud/network_module.html
 - name: Create the network
   openstack.cloud.network:
-    state: replace
+    state: present
     name: "{{ network_name }}"
   register: network_facts
 
