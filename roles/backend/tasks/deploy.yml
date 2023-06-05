@@ -6,19 +6,12 @@
     version: '{{ backend_repo_version }}'
     force: true  # at later stages repo can be manually modified, therefore we do a force checkout
 
-# https://docs.ansible.com/ansible/latest/collections/ansible/builtin/copy_module.html
-- name: Copy shieldhit binary to the backend instance
-  ansible.builtin.copy:
-    src: shieldhit
-    dest: '{{ backend_repo_workdir }}'
-    mode: '0750'
-
 # get fact about number of cores
 # # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/setup_module.html
 - name: Get number of cores
   ansible.builtin.setup:
     filter: ansible_processor_vcpus
-  register: vcpus_output
+  register: backend_vcpus_output
 
 - name: Create .env file with SHIELDHIT_PATH and MAX_CORES
   ansible.builtin.blockinfile:
@@ -26,8 +19,7 @@
     mode: '0640'
     create: true
     block: |
-      SHIELDHIT_PATH = shieldhit
-      MAX_CORES = {{ [1, vcpus_output.ansible_facts.ansible_processor_vcpus - 2] | max }}
+      MAX_CORES = {{ [1, backend_vcpus_output.ansible_facts.ansible_processor_vcpus - 2] | max }}
 
 # https://docs.ansible.com/ansible/latest/collections/community/docker/docker_compose_module.html
 - name: Run `docker-compose up` to bring up the backend
@@ -39,8 +31,8 @@
     container: yaptide_flask
     command: 'python3 yaptide/admin/db_manage.py add-user admin --password {{ backend_password }}'
     chdir: /usr/local/app/
-  register: add_user_output
+  register: backend_add_user_output
 
 - name: Print output of add-user command
   ansible.builtin.debug:
-    msg: '{{ add_user_output.stdout_lines }}'
+    msg: '{{ backend_add_user_output.stdout_lines }}'
