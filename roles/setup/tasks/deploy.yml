@@ -40,8 +40,8 @@
         state: started
         name: docker
         enabled: true
-      register: docker_service_status
-      until: '"status" in docker_service_status and docker_service_status.status.ActiveState == "active"'
+      register: setup_docker_service_status
+      until: '"status" in setup_docker_service_status and setup_docker_service_status.status.ActiveState == "active"'
       retries: 3
       delay: 5
 

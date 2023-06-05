@@ -1,12 +1,12 @@
 # filename: launch_instance.yml
 - name: Repetitively launch an instance
   vars:
-    max_retries: 8
-    retry_delay: 20
+    openstack_max_retries: 8
+    openstack_retry_delay: 20
   block:
     - name: Increment the retry count
       ansible.builtin.set_fact:
-        retry_count: "{{ 0 if retry_count is undefined else retry_count | int + 1 }}"
+        openstack_retry_count: "{{ 0 if openstack_retry_count is undefined else openstack_retry_count | int + 1 }}"
 
     # https://docs.ansible.com/ansible/latest/collections/openstack/cloud/server_module.html
     - name: Delete an instance
@@ -27,26 +27,26 @@
           - net-name: "{{ network_name }}"
         auto_ip: false  # public IP will be assigned in the next task
         security_groups: "{{ security_group_name }}"
-      register: instance_facts
-      failed_when: (instance_facts.server.addresses | dict2items | first).value | map(attribute='addr') | select('match', '10.0.0.*') | length != 1
+      register: openstack_instance_facts
+      failed_when: (openstack_instance_facts.server.addresses | dict2items | first).value | map(attribute='addr') | select('match', '10.0.0.*') | length != 1
 
     - name: Print all local IP addresses
       ansible.builtin.debug:
-        var: (instance_facts.server.addresses | dict2items | first).value | map(attribute='addr') | select('match', '10.0.0.*')
+        var: (openstack_instance_facts.server.addresses | dict2items | first).value | map(attribute='addr') | select('match', '10.0.0.*')
 
   rescue:
     - name: Check if the retry count is less than the maximum
       ansible.builtin.fail:
         msg: Maximum retries of grouped tasks reached
-      when: retry_count | int == max_retries | int
+      when: openstack_retry_count | int == openstack_max_retries | int
 
-    - name: Wait for retry_delay seconds
+    - name: Wait for openstack_retry_delay seconds
       ansible.builtin.debug:
         msg: "Task Group failed, let's give it another shot"
 
     - name: Sleep between retries
       ansible.builtin.wait_for:
-        timeout: "{{ retry_delay }}" # seconds
+        timeout: "{{ openstack_retry_delay }}" # seconds
       delegate_to: localhost
       become: false
 
