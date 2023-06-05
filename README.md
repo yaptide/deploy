@@ -23,9 +23,7 @@ The only way to run it from Windows is to use the `WSL` (Windows Subsystem for L
 
 2. Deploy the yaptide platform on the local machine.
 
-We assume you have the latest binary of the `shieldhit` simulator locally stored in the same location as the `site.yml` playbook.
-It will be copied by the playbook to the instance and used for running the simulation.
-
+The simulator binaries are copied from S3 or other types of storage at the moment when remote docker containers are starting.
 ```bash
 ansible-playbook site.yml -i environments/local
 ```
@@ -114,8 +112,7 @@ At this stage necessary packages will be installed and respective repositories c
 The backend will be served on port 5000 and the frontend on port 80.
 This step is time consuming and may take more than 10 minutes.
 
-We assume you have the latest binary of the `shieldhit` simulator locally stored in the same location as the `site.yml` playbook.
-It will be copied by the playbook to the instance and used for running the simulation.
+The simulator binaries are copied from S3 or other types of storage at the moment when remote docker containers are starting.
 
 ```bash
 ansible-playbook site.yml
