@@ -2,7 +2,7 @@ version: "3.3"
 
 services:
   ui:
-    image: ghcr.io/yaptide/ui-web:master
+    image: ghcr.io/yaptide/ui-web:${FRONTEND-master}
     container_name: ui
     ports:
       - 80:80
@@ -10,7 +10,7 @@ services:
       - yaptide_flask
 
   yaptide_flask:
-    image: ghcr.io/yaptide/yaptide-flask:master
+    image: ghcr.io/yaptide/yaptide-flask:${BACKEND-master}
     # mount data volume as /usr/local/app/yaptide/data in rw mode
     volumes:
       - data:/usr/local/app/yaptide/data:rw
@@ -27,7 +27,7 @@ services:
       - flower
 
   yaptide_worker:
-    image: ghcr.io/yaptide/yaptide-worker:master
+    image: ghcr.io/yaptide/yaptide-worker:${BACKEND-master}
     container_name: yaptide_worker
     environment:
       - CELERY_BROKER_URL=redis://yaptide_redis:6379/0
