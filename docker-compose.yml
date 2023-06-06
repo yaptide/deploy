@@ -58,4 +58,4 @@ services:
       - redis
 
 volumes:
-    data:
+  data:
