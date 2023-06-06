@@ -27,7 +27,7 @@ services:
       - flower
 
   yaptide_worker:
-    image: yaptide_worker
+    image: ghcr.io/yaptide/yaptide-worker:master
     deploy:
       resources:
         limits:
