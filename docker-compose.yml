@@ -5,7 +5,7 @@ services:
     image: ghcr.io/yaptide/ui-web:master
     container_name: ui
     ports:
-      - 80
+      - 80:80
     depends_on:
       - yaptide_flask
 
