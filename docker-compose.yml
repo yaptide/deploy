@@ -1,0 +1,56 @@
+version: "3.3"
+
+services:
+  ui:
+    image: ghcr.io/yaptide/ui-web:${FRONTEND-master}
+    container_name: ui
+    ports:
+      - 80:80
+    depends_on:
+      - yaptide_flask
+
+  yaptide_flask:
+    image: ghcr.io/yaptide/yaptide-flask:${BACKEND-master}
+    # mount data volume as /usr/local/app/yaptide/data in rw mode
+    volumes:
+      - data:/usr/local/app/yaptide/data:rw
+    container_name: yaptide_flask
+    ports:
+      - 5000:5000
+    environment:
+      - FLASK_DEBUG=1
+      - CELERY_BROKER_URL=redis://yaptide_redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://yaptide_redis:6379/0
+      - FLOWER_BASIC_AUTH=admin:password
+    depends_on:
+      - redis
+      - flower
+
+  yaptide_worker:
+    image: ghcr.io/yaptide/yaptide-worker:${BACKEND-master}
+    container_name: yaptide_worker
+    environment:
+      - CELERY_BROKER_URL=redis://yaptide_redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://yaptide_redis:6379/0
+      - BACKEND_INTERNAL_URL=http://yaptide_flask:5000
+    depends_on:
+      - redis
+      - yaptide_flask
+
+  redis:
+    image: redis:6-alpine
+    container_name: yaptide_redis
+
+  flower:
+    image: mher/flower
+    container_name: yaptide_flower
+    ports:
+      - 5555:5555
+    environment:
+      - BROKER_URL=redis://yaptide_redis:6379/0
+      - FLOWER_BASIC_AUTH=admin:password  # Modify this for basic authentication
+    depends_on:
+      - redis
+
+volumes:
+  data:
