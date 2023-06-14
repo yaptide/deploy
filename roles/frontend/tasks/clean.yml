@@ -2,18 +2,29 @@
   ansible.builtin.package_facts:
     manager: apt
 
-- name: Check if frontend repo exists
+- name: Check if frontend repo has docker-compose.yml
   ansible.builtin.stat:
-    path: '{{ backend_repo_workdir }}'
-  register: frontend_repo_status
+    path: '{{ frontend_repo_workdir }}/docker-compose.yml'
+  register: frontend_docker_compose_file_status
 
-- name: Check if docker pip package is installed
+- name: Check if docker-compose is installed
   ansible.builtin.pip:
-    name: docker
+    name: docker-compose
   check_mode: true
-  register: frontend_docker_installation_status
+  register: frontend_docker_compose_installation_status
   ignore_errors: true
 
+# https://docs.ansible.com/ansible/latest/collections/community/docker/docker_compose_module.html
+- name: Run `docker-compose down` to shut down the backend
+  become: true
+  community.docker.docker_compose:
+    project_src: '{{ frontend_repo_workdir }}'
+    state: absent
+    remove_images: all
+  when:
+    - frontend_docker_compose_file_status.stat.exists
+    - ("docker-ce" in ansible_facts.packages) or (ansible_connection == "local")
+    - frontend_docker_compose_installation_status is not failed
 
 - name: Recursively remove directory
   become: true
