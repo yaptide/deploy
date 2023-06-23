@@ -129,6 +129,11 @@ To specify different IP of the backend and frontend:
 ```bash
 ansible-playbook site.yml -e frontend_backend_hostname='149.156.182.181' -e frontend_ui_hostname='149.156.182.181' -e backend_repo_version='backend-branch-name' -e frontend_repo_version='frontend-branch-name'
 ```
+or
+
+```
+ansible-playbook site.yml  -e frontend_backend_hostname='yap-dev.c3.plgrid.pl' -e frontend_ui_hostname='yap-dev.c3.plgrid.pl' 
+```
 
 You can also run only few stages of the deployment. For example to perform only installation of necessary packages, use the following command:
 
