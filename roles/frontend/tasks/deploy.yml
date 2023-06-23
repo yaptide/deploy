@@ -9,6 +9,13 @@
   ansible.builtin.debug:
     msg: "Building for backend http://{{ frontend_backend_hostname }}:5000"
 
+- name: Replace server_name line
+  lineinfile:
+    path: '{{ frontend_repo_workdir }}/nginx.conf'
+    regexp: '^(\s*server_name\s*)localhost;'
+    line: 'server_name {{ frontend_ui_hostname }};'
+
+
 - name: Create .env file with REACT_APP_BACKEND_URL
   ansible.builtin.blockinfile:
     path: '{{ frontend_repo_workdir }}/.env'
