@@ -58,6 +58,7 @@
   loop:
     - 22
     - 80
+    - 443
     - 5000
 
 # At the moment of writing cloud infrastructure (C3 @ plgrid) has issues with creating instances
