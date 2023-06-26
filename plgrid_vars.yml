@@ -1,0 +1,7 @@
+---
+frontend_backend_hostname: 'yap-dev.c3.plgrid.pl'
+frontend_backend_url: 'https://yap-dev.c3.plgrid.pl:5000'
+frontend_ui_hostname: 'yap-dev.c3.plgrid.pl'
+frontend_ui_url: 'https://yap-dev.c3.plgrid.pl'
+frontend_repo_version: 'dependabot/npm_and_yarn/mui/x-data-grid-6.9.0'
+backend_repo_version: '475-add-https-support'
