@@ -6,6 +6,15 @@
     version: '{{ backend_repo_version }}'
     force: true  # at later stages repo can be manually modified, therefore we do a force checkout
 
+- name: Copy the certificate files
+  ansible.builtin.copy:
+    src: '{{ item }}'
+    dest: '{{ backend_repo_workdir }}'
+    mode: '0400'
+  with_items:
+    - 'server.crt'
+    - 'server.key'
+
 # get fact about number of cores
 # # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/setup_module.html
 - name: Get number of cores
@@ -25,6 +34,23 @@
 - name: Run `docker-compose up` to bring up the backend
   community.docker.docker_compose:
     project_src: '{{ backend_repo_workdir }}'
+
+# Copy certificates to the yaptide_ui image:
+# https://docs.ansible.com/ansible/latest/collections/ansible/builtin/docker_container_module.html
+- name: Copy certificates to the yaptide_nginx image
+  community.docker.docker_container_copy_into:
+    container: 'yaptide_nginx'
+    path: '{{ backend_repo_workdir }}/{{ item }}'
+    container_path: '/etc/nginx/conf.d/{{ item }}'
+  with_items:
+    - 'server.crt'
+    - 'server.key'
+
+# restart yaptide_nginx container
+- name: Restart yaptide_nginx container
+  community.docker.docker_container:
+    name: 'yaptide_nginx'
+    restart: true
 
 - name: Insert a first user into database
   community.docker.docker_container_exec:

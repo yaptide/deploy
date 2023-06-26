@@ -21,7 +21,7 @@
     dest: '{{ frontend_repo_workdir }}'
     mode: '0400'
   with_items:
-    - 'server.cert'
+    - 'server.crt'
     - 'server.key'
 
 - name: Create .env file with REACT_APP_BACKEND_URL
@@ -43,10 +43,17 @@
   community.docker.docker_container_copy_into:
     container: 'yaptide_ui'
     path: '{{ frontend_repo_workdir }}/{{ item }}'
-    container_path: '/etc/nginx/conf.d/'
+    container_path: '/etc/nginx/conf.d/{{ item }}'
   with_items:
-    - 'server.cert'
+    - 'server.crt'
     - 'server.key'
+
+# restart yaptide_ui container
+- name: Restart yaptide_ui container
+  community.docker.docker_container:
+    name: 'yaptide_ui'
+    restart: true
+
 
 - name: Show where frontend is running
   ansible.builtin.debug:
