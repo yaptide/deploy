@@ -197,3 +197,5 @@ shieldhit
 *openrc*.sh
 roles/backend/files/password
 secure.yaml
+server.key
+server.cert
