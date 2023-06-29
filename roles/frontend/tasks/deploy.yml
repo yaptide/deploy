@@ -7,7 +7,22 @@
 
 - name: Print build information
   ansible.builtin.debug:
-    msg: "Building for backend http://{{ frontend_backend_hostname }}:5000"
+    msg: "Building for backend {{ frontend_backend_url }}"
+
+- name: Fill proper UI hostname in nginx.conf
+  ansible.builtin.lineinfile:
+    path: '{{ frontend_repo_workdir }}/nginx.conf'
+    regexp: '^(\s*server_name\s*)localhost;'
+    line: 'server_name {{ frontend_ui_hostname }};'
+
+- name: Copy the certificate files
+  ansible.builtin.copy:
+    src: '{{ item }}'
+    dest: '{{ frontend_repo_workdir }}'
+    mode: '0400'
+  with_items:
+    - 'server.crt'
+    - 'server.key'
 
 - name: Create .env file with REACT_APP_BACKEND_URL
   ansible.builtin.blockinfile:
@@ -15,13 +30,31 @@
     mode: '0640'
     create: true
     block: |
-      REACT_APP_BACKEND_URL = http://{{ frontend_backend_hostname }}:5000
+      REACT_APP_BACKEND_URL = {{ frontend_backend_url }}
 
 # https://docs.ansible.com/ansible/latest/collections/community/docker/docker_compose_module.html
 - name: Run `docker-compose up` to bring up the frontend
   community.docker.docker_compose:
     project_src: '{{ frontend_repo_workdir }}'
 
+# Copy certificates to the yaptide_ui image:
+# https://docs.ansible.com/ansible/latest/collections/ansible/builtin/docker_container_module.html
+- name: Copy certificates to the yaptide_ui image
+  community.docker.docker_container_copy_into:
+    container: 'yaptide_ui'
+    path: '{{ frontend_repo_workdir }}/{{ item }}'
+    container_path: '/etc/nginx/conf.d/{{ item }}'
+  with_items:
+    - 'server.crt'
+    - 'server.key'
+
+# restart yaptide_ui container
+- name: Restart yaptide_ui container
+  community.docker.docker_container:
+    name: 'yaptide_ui'
+    restart: true
+
+
 - name: Show where frontend is running
   ansible.builtin.debug:
-    msg: "Yaptide platform is available at http://{{ frontend_ui_hostname }} "
+    msg: "Yaptide platform is available at {{ frontend_ui_url }} "

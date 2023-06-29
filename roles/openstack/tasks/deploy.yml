@@ -57,8 +57,8 @@
     remote_ip_prefix: 0.0.0.0/0
   loop:
     - 22
-    - 80
-    - 5000
+    - 443
+    - 8443
 
 # At the moment of writing cloud infrastructure (C3 @ plgrid) has issues with creating instances
 # Due to some problems two network interfaces are created for each instance, causing problems with
