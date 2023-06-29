@@ -31,6 +31,7 @@
     create: true
     block: |
       REACT_APP_BACKEND_URL = {{ frontend_backend_url }}
+      REACT_APP_ALT_AUTH = 'plg'
 
 # https://docs.ansible.com/ansible/latest/collections/community/docker/docker_compose_module.html
 - name: Run `docker-compose up` to bring up the frontend
