@@ -9,5 +9,5 @@ backend_cert_auth_url: 'https://ccm-dev.kdm.cyfronet.pl/key'
 
 frontend_repo_version: 'keycloak'
 backend_repo_version: 'keycloak'
-#frontend_repo_version: '906-fix-freezing-ui'
-#backend_repo_version: 'dependabot/submodules/yaptide/converter-6aa7693'
+# frontend_repo_version: '906-fix-freezing-ui'
+# backend_repo_version: 'dependabot/submodules/yaptide/converter-6aa7693'
