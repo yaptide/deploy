@@ -29,6 +29,7 @@
     create: true
     block: |
       MAX_CORES = {{ [1, backend_vcpus_output.ansible_facts.ansible_processor_vcpus - 2] | max }}
+      CERT_AUTH_URL = {{ backend_cert_auth_url }}
 
 # https://docs.ansible.com/ansible/latest/collections/community/docker/docker_compose_module.html
 - name: Run `docker-compose up` to bring up the backend
@@ -62,3 +63,15 @@
 - name: Print output of add-user command
   ansible.builtin.debug:
     msg: '{{ backend_add_user_output.stdout_lines }}'
+
+
+- name: Insert first cluster into database
+  community.docker.docker_container_exec:
+    container: yaptide_flask
+    command: 'python3 yaptide/admin/db_manage.py add-cluster {{ backend_cluster }}'
+    chdir: /usr/local/app/
+  register: backend_add_cluster_output
+
+- name: Print output of add-cluster command
+  ansible.builtin.debug:
+    msg: '{{ backend_add_cluster_output.stdout_lines }}'

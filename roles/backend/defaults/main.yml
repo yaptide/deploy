@@ -3,4 +3,7 @@ backend_repo_version: master
 
 backend_password: "password"
 
+backend_cluster: ""
+backend_cert_auth_url: ""
+
 ansible_become: false
