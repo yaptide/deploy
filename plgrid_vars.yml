@@ -6,8 +6,7 @@ frontend_ui_url: 'https://yap-dev.c3.plgrid.pl'
 
 backend_cluster: 'ares.cyfronet.pl'
 backend_cert_auth_url: 'https://ccm-dev.kdm.cyfronet.pl/key'
+backend_backend_external_url: 'https://yap-dev.c3.plgrid.pl:8443'
 
-frontend_repo_version: 'keycloak'
-backend_repo_version: 'keycloak'
-# frontend_repo_version: '906-fix-freezing-ui'
-# backend_repo_version: 'dependabot/submodules/yaptide/converter-6aa7693'
+frontend_repo_version: 'master'
+backend_repo_version: 'master'

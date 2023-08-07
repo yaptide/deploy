@@ -30,6 +30,7 @@
     block: |
       MAX_CORES = {{ [1, backend_vcpus_output.ansible_facts.ansible_processor_vcpus - 2] | max }}
       CERT_AUTH_URL = {{ backend_cert_auth_url }}
+      BACKEND_EXTERNAL_URL = {{ backend_backend_external_url }}
 
 # https://docs.ansible.com/ansible/latest/collections/community/docker/docker_compose_module.html
 - name: Run `docker-compose up` to bring up the backend
