@@ -22,7 +22,7 @@
     filter: ansible_processor_vcpus
   register: backend_vcpus_output
 
-- name: Create .env file with SHIELDHIT_PATH and MAX_CORES
+- name: Create .env file with needed variables, append local .env if exists
   ansible.builtin.blockinfile:
     path: '{{ backend_repo_workdir }}/.env'
     mode: '0640'
@@ -31,6 +31,10 @@
       MAX_CORES = {{ [1, backend_vcpus_output.ansible_facts.ansible_processor_vcpus - 2] | max }}
       CERT_AUTH_URL = {{ backend_cert_auth_url }}
       BACKEND_EXTERNAL_URL = {{ backend_backend_external_url }}
+      {% if lookup('file', './.env', errors='ignore') is defined %}
+      {{ lookup('file', './.env', errors='ignore') }}
+      {% endif %}
+
 
 # https://docs.ansible.com/ansible/latest/collections/community/docker/docker_compose_module.html
 - name: Run `docker-compose up` to bring up the backend
