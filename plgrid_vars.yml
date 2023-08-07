@@ -4,9 +4,9 @@ frontend_backend_url: 'https://yap-dev.c3.plgrid.pl:8443'
 frontend_ui_hostname: 'yap-dev.c3.plgrid.pl'
 frontend_ui_url: 'https://yap-dev.c3.plgrid.pl'
 
-backend_cluster: 'pro.cyfronet.pl'
+backend_cluster: 'ares.cyfronet.pl'
 backend_cert_auth_url: 'https://ccm-dev.kdm.cyfronet.pl/key'
 backend_backend_external_url: 'https://yap-dev.c3.plgrid.pl:8443'
 
-frontend_repo_version: 'dependabot/npm_and_yarn/types/node-20.4.7'
+frontend_repo_version: 'master'
 backend_repo_version: 'master'
