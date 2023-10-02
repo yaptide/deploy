@@ -28,8 +28,6 @@ The `yaptide_nginx` container serves as a proxy and is exposing the REST API on 
   * port 5000, using plain HTTP
   * port 8443, using HTTPS with self-signed certificate (which may be untrusted by your browser)
 
-
-
 ## Deploying frontend
 
 In a similar way as for backend, the frontend can be deployed using docker compose. This should take couple of minutes to complete. Following command would start couple of containers in the background:
@@ -39,4 +37,21 @@ cd ui
 docker compose up -d
 ```
 
-This will start 
+The `yaptide_ui` serves static version of the frontend on following ports:
+  * port 80, using plain HTTP
+  * port 443, using HTTPS with self-signed certificate (which may be untrusted by your browser)
+
+Frontend is configured to use the REST API exposed on port 5000, using plain HTTP.
+
+## Creating first user
+
+At this point there is no single user in the database, so we need to create one. This can be done using the following command:
+
+```bash
+docker exec -w /usr/local/app/ yaptide_flask python3 yaptide/admin/db_manage.py add-user admin --password mysecretpassword
+```
+
+## Running first simulation
+
+Now we are ready to run our first simulation. First we need to login to the frontend. Open your browser and navigate to http://localhost:5000 or https://localhost:443. 
+Login with the credentials created in the previous step.
