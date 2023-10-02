@@ -1,0 +1,23 @@
+site_name: Documentation
+site_url: https://yaptide.github.io/deploy/
+repo_url: https://github.com/yaptide/deploy
+repo_name: yaptide/deploy
+copyright: Copyright &copy; 2023 the Yaptide team
+
+
+theme:
+  name: material
+  features:
+    - content.code.annotate
+    - content.code.copy
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.top
+
+nav:
+- Home:
+  - Overview: index.md
+
+plugins:
+- search
+- section-index
