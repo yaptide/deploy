@@ -49,3 +49,9 @@ Inspect logfiles of the worker container to see if the SHIELD-HIT12A binary was 
 ```
 docker logs -f yaptide_worker
 ```
+
+Check which version of SHIELD-HIT12A was deployed:
+
+```
+docker exec -it yaptide_worker shieldhit --version
+```
