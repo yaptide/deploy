@@ -17,6 +17,7 @@ theme:
 nav:
 - Home:
   - Overview: index.md
+  - Simulators: simulators.md
 
 plugins:
 - search
