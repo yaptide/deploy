@@ -55,5 +55,5 @@ docker exec yaptide_flask python3 yaptide/admin/db_manage.py add-user admin --pa
 
 ## Running first simulation
 
-Now we are ready to run our first simulation. First we need to login to the frontend. Open your browser and navigate to [http://localhost:5000](http://localhost:5000) or [https://localhost:443](https://localhost:443). 
+Now we are ready to run our first simulation. First we need to login to the frontend. Open your browser and navigate to [http://localhost:80](http://localhost:80) or [https://localhost:443](https://localhost:443). 
 Login with the credentials created in the previous step.
