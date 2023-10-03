@@ -50,7 +50,7 @@ Frontend is configured to use the backend REST API exposed on port 5000, using p
 At this point there is no single user in the database, so we need to create one. This can be done using the following command:
 
 ```bash
-docker exec -w /usr/local/app/ yaptide_flask python3 yaptide/admin/db_manage.py add-user admin --password mysecretpassword
+docker exec yaptide_flask python3 yaptide/admin/db_manage.py add-user admin --password mysecretpassword
 ```
 
 ## Running first simulation
