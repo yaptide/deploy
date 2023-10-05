@@ -55,3 +55,27 @@ Check which version of SHIELD-HIT12A was deployed:
 ```
 docker exec -it yaptide_worker shieldhit --version
 ```
+
+## Parallel simulation execution
+
+By default the CPU usage of the worker container will be limited by default to a single CPU core.
+To allow for usage of multiple cores one needs to set MAX_CORES environment variable.
+
+The easiest way is to provide it during execution of `docker compose up` command. For example to allow for usage of 4 cores:
+
+```bash
+MAX_CORES=4 docker compose up -d
+```
+
+Another way is to add following line to the `.env` file:
+
+```
+MAX_CORES=4
+```
+
+and then restart the backend containers:
+
+```bash
+docker compose down
+docker compose up -d
+```
