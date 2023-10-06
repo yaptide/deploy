@@ -63,9 +63,17 @@ To allow for usage of multiple cores one needs to set MAX_CORES environment vari
 
 The easiest way is to provide it during execution of `docker compose up` command. For example to allow for usage of 4 cores:
 
-```bash
-MAX_CORES=4 docker compose up -d
-```
+=== "Linux"
+
+    ```bash
+    MAX_CORES=4 docker compose up -d
+    ```
+
+=== "Windows (PowerShell)"
+
+    ```powershell
+    $env:MAX_CORES=4; docker compose up -d
+    ```
 
 Another way is to add following line to the `.env` file:
 
