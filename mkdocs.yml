@@ -17,6 +17,7 @@ theme:
 nav:
 - Home:
   - Overview: index.md
+  - Maintenance: maintenance.md
   - Simulators: simulators.md
   - Cloud deploy: ansible.md
 

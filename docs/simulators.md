@@ -41,13 +41,13 @@ Create `.env` file with the contents described above.
 Start the backend containers:
 
 ```
-docker compose up -d
+docker compose up --detach
 ```
 
 Inspect logfiles of the worker container to see if the SHIELD-HIT12A binary was downloaded and decrypted:
 
 ```
-docker logs -f yaptide_worker
+docker logs --follow yaptide_worker
 ```
 
 Check which version of SHIELD-HIT12A was deployed:
@@ -66,13 +66,13 @@ The easiest way is to provide it during execution of `docker compose up` command
 === "Linux"
 
     ```bash
-    MAX_CORES=4 docker compose up -d
+    MAX_CORES=4 docker compose up --detach
     ```
 
 === "Windows (PowerShell)"
 
     ```powershell
-    $env:MAX_CORES=4; docker compose up -d
+    $env:MAX_CORES=4; docker compose up --detach
     ```
 
 Another way is to add following line to the `.env` file:
@@ -81,9 +81,14 @@ Another way is to add following line to the `.env` file:
 MAX_CORES=4
 ```
 
-and then restart the backend containers:
+then stop the backend containers:
 
 ```bash
 docker compose down
-docker compose up -d
+```
+
+and start them again:
+
+```bash
+docker compose up --detach
 ```
