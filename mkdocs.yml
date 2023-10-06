@@ -25,7 +25,6 @@ plugins:
 - search
 - git-revision-date-localized
 
-
 markdown_extensions:
   - pymdownx.superfences
   - pymdownx.tabbed:
