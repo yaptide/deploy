@@ -1,5 +1,16 @@
 # Local deployment
 
+## Requirements
+
+To be able to run the application locally, you need to have following software installed:
+
+  * [Docker](https://docs.docker.com/get-docker/)
+  * [Docker Compose](https://docs.docker.com/compose/install/)
+  * [Git](https://git-scm.com/downloads)
+
+Both products could be installed on Linux and Windows. Docker for Windows usually uses WSL2 (Windows Subsystem for Linux ) backend.
+The commands listed below can be executed on plain Powershell, there is no need to run them inside WSL2.
+
 ## Prerequisites
 
 First we need to clone both backend and frontend repositories:

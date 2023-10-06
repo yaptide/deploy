@@ -3,7 +3,7 @@ site_url: https://yaptide.github.io/deploy/
 repo_url: https://github.com/yaptide/deploy
 repo_name: yaptide/deploy
 copyright: Copyright &copy; 2023 the Yaptide team
-
+title: Deploy documentation
 
 theme:
   name: material
@@ -18,7 +18,8 @@ nav:
 - Home:
   - Overview: index.md
   - Simulators: simulators.md
+  - Cloud deploy: ansible.md
 
 plugins:
 - search
-- section-index
+- git-revision-date-localized
