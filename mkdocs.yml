@@ -1,15 +1,15 @@
-site_name: Documentation
+site_name: Deploy documentation
 site_url: https://yaptide.github.io/deploy/
 repo_url: https://github.com/yaptide/deploy
 repo_name: yaptide/deploy
 copyright: Copyright &copy; 2023 the Yaptide team
-title: Deploy documentation
 
 theme:
   name: material
   features:
     - content.code.annotate
     - content.code.copy
+    - content.tabs.link
     - navigation.tabs
     - navigation.tabs.sticky
     - navigation.top
@@ -24,3 +24,9 @@ nav:
 plugins:
 - search
 - git-revision-date-localized
+
+
+markdown_extensions:
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
