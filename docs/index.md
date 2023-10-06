@@ -1,5 +1,16 @@
 # Local deployment
 
+## Requirements
+
+To be able to run the application locally, you need to have following software installed:
+
+  * [Docker](https://docs.docker.com/get-docker/)
+  * [Docker Compose](https://docs.docker.com/compose/install/)
+  * [Git](https://git-scm.com/downloads)
+
+These products could be installed on Linux and Windows. Docker for Windows usually uses WSL2 (Windows Subsystem for Linux ) backend.
+The commands listed below can be executed on plain Powershell, there is no need to run them inside WSL2.
+
 ## Prerequisites
 
 First we need to clone both backend and frontend repositories:
@@ -19,7 +30,7 @@ Lets start with deploying backend using docker compose. This should take couple 
 
 ```bash
 cd yaptide
-docker compose up -d
+docker compose up --detach
 ```
 
 Most of the time consuming process is download and installation of python requirements needed to run flask server and worker. When created, the worker container should automatically download the `SHIELD-HIT12A` demo executable and be ready to accept jobs.
@@ -35,7 +46,7 @@ In a similar way as for backend, the frontend can be deployed using docker compo
 
 ```bash
 cd ui
-docker compose up -d
+docker compose up --detach
 ```
 
 The `yaptide_ui` container serves static version of the frontend using nginx, on following ports:
@@ -50,7 +61,7 @@ Frontend is configured to use the backend REST API exposed on port 5000, using p
 At this point there is no single user in the database, so we need to create one. This can be done using the following command:
 
 ```bash
-docker exec yaptide_flask python3 yaptide/admin/db_manage.py add-user admin --password mysecretpassword
+docker exec yaptide_flask python3 yaptide/admin/db_manage.py add-user admin --password password
 ```
 
 ## Running first simulation
