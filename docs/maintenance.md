@@ -39,6 +39,6 @@ The volume is created automatically (with empty database) when the backend conta
 To remove the volume and all data stored in it, stop the backend containers, by executing in the `yaptide` directory:
 
 ```bash
-docker compose down --volume
+docker compose down --volumes
 ```
 
