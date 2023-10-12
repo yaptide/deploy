@@ -105,7 +105,3 @@ S3_GEANT_BUCKET=bucket_name_with_geant4_files
 * `S3_TOPAS_BUCKET`, `S3_TOPAS_KEY` - location of TOPAS binary in S3 storage
 * `S3_TOPAS_VERSION` - version of TOPAS to be downloaded
 * `S3_GEANT_BUCKET` - location of Geant4 files in S3 storage (required for TOPAS)
-
-* `S3_TOPAS_BUCKET`, `S3_TOPAS_KEY` - location of TOPAS binary in S3 storage
-* `S3_TOPAS_VERSION` - version of TOPAS to be downloaded
-* `S3_GEANT_BUCKET` - location of Geant4 files in S3 storage (required for TOPAS)
