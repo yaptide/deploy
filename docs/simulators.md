@@ -9,7 +9,7 @@ Also it has no support for any type of parallelization (the random number genera
 To deploy yaptide platform with other simulators one needs to provide a location of other simulators in the S3 storage infrastructure.
 The easiest way to achieve that is to provide a `.env` file in the `yaptide` directory (the directory where backend repository was cloned).
 
-An example of such file dedicated to SHIELD-HIT12A is following:
+An example of such file is following:
 
 ```
 S3_ENDPOINT=https://endpoint_of_s3_storage
@@ -26,7 +26,6 @@ This contents of this file are following:
 * `S3_ENDPOINT`, `S3_ACCESS_KEY`, `S3_SECRET_KEY` - credentials to access S3 storage
 * `S3_SHIELDHIT_BUCKET`, `S3_SHIELDHIT_KEY` - location of SHIELD-HIT12A binary in S3 storage
 * `S3_ENCRYPTION_PASSWORD`, `S3_ENCRYPTION_SALT` - password and salt to decrypt SHIELD-HIT12A binary
-
 
 ## How to deploy backend with other simulators
 
@@ -92,3 +91,17 @@ and start them again:
 ```bash
 docker compose up --detach
 ```
+
+## TOPAS support
+In future we plan to add support for TOPAS simulator. Right now it could be installed in the worker container, but TOPAS simulations cannot be executed. To allow installation of TOPAS set following additional variables in the .env file.
+
+```
+S3_TOPAS_BUCKET=bucket_name_with_topas_binary
+S3_TOPAS_KEY=filename_of_topas_binary
+S3_TOPAS_VERSION=version_of_topas
+S3_GEANT_BUCKET=bucket_name_with_geant4_files
+```
+
+* `S3_TOPAS_BUCKET`, `S3_TOPAS_KEY` - location of TOPAS binary in S3 storage
+* `S3_TOPAS_VERSION` - version of TOPAS to be downloaded
+* `S3_GEANT_BUCKET` - location of Geant4 files in S3 storage (required for TOPAS)
