@@ -9,7 +9,7 @@ Also it has no support for any type of parallelization (the random number genera
 To deploy yaptide platform with other simulators one needs to provide a location of other simulators in the S3 storage infrastructure.
 The easiest way to achieve that is to provide a `.env` file in the `yaptide` directory (the directory where backend repository was cloned).
 
-An example of such file dedicated is following:
+An example of such file is following:
 
 ```
 S3_ENDPOINT=https://endpoint_of_s3_storage
