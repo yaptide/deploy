@@ -1,6 +1,6 @@
 instance_hostname: "yaptide"
 
-image_name: "Ubuntu 22.04 LTS Snapshot 20230404"
+image_name: "Ubuntu 22.04 LTS Snapshot 20231015"
 key_name: "ansible_key"
 flavor_name: "h2.large"
 
