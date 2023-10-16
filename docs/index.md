@@ -13,10 +13,14 @@ The commands listed below can be executed on plain Powershell, there is no need 
 
 ## Prerequisites
 
-First we need to clone both backend and frontend repositories:
+First we need to clone both backend:
 
 ```bash
 git clone --recurse-submodules https://github.com/yaptide/yaptide.git
+```
+
+and frontend repositories:
+```bash
 git clone --recurse-submodules https://github.com/yaptide/ui.git
 ```
 
@@ -26,10 +30,15 @@ Local deployment allows only for job execution on Celery worker. To be able to s
 
 ## Deploying backend
 
-Lets start with deploying backend using docker compose. This should take couple of minutes to complete. Following command would start couple of containers in the background:
+Lets start with deploying backend using docker compose. This should take couple of minutes to complete. 
 
+First go to the directory where backend was cloned:
 ```bash
 cd yaptide
+```
+
+Following command would start couple of containers in the background:
+```bash
 docker compose up --detach
 ```
 
@@ -42,10 +51,16 @@ The `yaptide_nginx` container serves as a proxy and is exposing the REST API on 
 
 ## Deploying frontend
 
-In a similar way as for backend, the frontend can be deployed using docker compose. This should take couple of minutes to complete. Following command would start in the UI container in the background:
+In a similar way as for backend, the frontend can be deployed using docker compose. This should take couple of minutes to complete. 
 
+First go to the directory where frontend was cloned:
 ```bash
 cd ui
+```
+
+Following command would start in the UI container in the background:
+
+```bash
 docker compose up --detach
 ```
 
