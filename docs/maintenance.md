@@ -2,12 +2,18 @@
 
 ## Updating the repository to newer commits or other branches
 
-To update the repository to newer commits or other branches, execute the following command in the `yaptide` and/or `ui` directory:
+To update the repository to newer commits or other branches, execute the following commands in the `yaptide` and/or `ui` directory:
 
 ```bash
 git pull
+```
+
+update submodules (i.e. converter):
+
+```bash
 git submodule update --init --recursive
 ```
+
 
 Then stop the containers:
 
