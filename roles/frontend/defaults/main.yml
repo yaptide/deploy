@@ -7,3 +7,7 @@ frontend_backend_hostname: "localhost"
 frontend_backend_url: "http://localhost:5000"
 frontend_ui_hostname: "localhost"
 frontend_ui_url: "http://localhost:80"
+
+frontend_keycloak_base_url: ""
+frontend_keycloak_realm: ""
+frontend_keycloak_client_id: ""

@@ -15,15 +15,16 @@ theme:
     - navigation.top
 
 nav:
-- Home:
-  - Overview: index.md
-  - Maintenance: maintenance.md
-  - Simulators: simulators.md
-  - Cloud deploy: ansible.md
+  - Home:
+      - Overview: index.md
+      - Maintenance: maintenance.md
+      - Simulators: simulators.md
+      - Authentication: authentication.md
+      - Cloud deploy: ansible.md
 
 plugins:
-- search
-- git-revision-date-localized
+  - search
+  - git-revision-date-localized
 
 markdown_extensions:
   - pymdownx.superfences
