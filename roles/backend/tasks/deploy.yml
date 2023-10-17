@@ -29,8 +29,16 @@
     create: true
     block: |
       MAX_CORES = {{ [1, backend_vcpus_output.ansible_facts.ansible_processor_vcpus - 2] | max }}
+      {% if backend_cert_auth_url != "" %}
       CERT_AUTH_URL = {{ backend_cert_auth_url }}
+      {% endif %}
       BACKEND_EXTERNAL_URL = {{ backend_backend_external_url }}
+      {% if backend_keycloak_base_url != "" %}
+      KEYCLOAK_BASE_URL = {{ backend_keycloak_base_url }}
+      {% endif %}
+      {% if backend_keycloak_realm != "" %}
+      KEYCLOAK_REALM = {{ backend_keycloak_realm }}
+      {% endif %}
       {% if lookup('file', './.env', errors='ignore') is defined %}
       {{ lookup('file', './.env', errors='ignore') }}
       {% endif %}

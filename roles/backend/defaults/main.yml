@@ -6,6 +6,7 @@ backend_password: "password"
 backend_cluster: ""
 backend_cert_auth_url: ""
 backend_backend_external_url: "http://localhost:5000"
-
+backend_keycloak_base_url: ""
+backend_keycloak_realm: ""
 
 ansible_become: false
