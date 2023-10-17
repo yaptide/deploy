@@ -80,6 +80,12 @@ and `server.crt` containing the certificate:
 docker cp server.crt yaptide_ui:/etc/nginx/conf.d/server.crt
 ```
 
+also `rootca.crt` containing the root certificate:
+
+```bash
+docker cp rootca.crt yaptide_ui:/etc/nginx/conf.d/rootca.crt
+```
+
 Restart the container:
 
 ```bash
@@ -102,8 +108,22 @@ and `server.crt` containing the certificate:
 docker cp server.crt yaptide_nginx:/etc/nginx/conf.d/server.crt
 ```
 
+and `rootca.crt` containing the root certificate:
+
+```bash
+docker cp rootca.crt yaptide_nginx:/etc/nginx/conf.d/rootca.crt
+```
+
 Restart the container:
 
 ```bash
 docker restart yaptide_nginx
+```
+
+### Certificate inspection
+
+To verify the certificate chain, execute the following command:
+
+```bash
+openssl verify -CAfile rootca.crt server.crt
 ```

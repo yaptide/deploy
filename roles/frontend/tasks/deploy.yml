@@ -23,6 +23,7 @@
   with_items:
     - 'server.crt'
     - 'server.key'
+    - 'rootca.crt'
 
 - name: Create .env file with REACT_APP_BACKEND_URL
   ansible.builtin.blockinfile:
@@ -57,6 +58,7 @@
   with_items:
     - 'server.crt'
     - 'server.key'
+    - 'rootca.crt'
 
 # restart yaptide_ui container
 - name: Restart yaptide_ui container
