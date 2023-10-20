@@ -31,15 +31,15 @@
     create: true
     block: |
       REACT_APP_BACKEND_URL = {{ frontend_backend_url }}
-      REACT_APP_ALT_AUTH = 'plg'
+      REACT_APP_ALT_AUTH = plg
       {% if frontend_keycloak_base_url != "" %}
-      KEYCLOAK_BASE_URL = {{ frontend_keycloak_base_url }}
+      REACT_APP_KEYCLOAK_BASE_URL = {{ frontend_keycloak_base_url }}
       {% endif %}
       {% if frontend_keycloak_realm != "" %}
-      KEYCLOAK_REALM = {{ frontend_keycloak_realm }}
+      REACT_APP_KEYCLOAK_REALM = {{ frontend_keycloak_realm }}
       {% endif %}
       {% if frontend_keycloak_client_id != "" %}
-      KEYCLOAK_CLIENT_ID = {{ frontend_keycloak_client_id }}
+      REACT_APP_KEYCLOAK_CLIENT_ID = {{ frontend_keycloak_client_id }}
       {% endif %}
 
 # https://docs.ansible.com/ansible/latest/collections/community/docker/docker_compose_module.html
