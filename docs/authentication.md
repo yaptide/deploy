@@ -23,4 +23,4 @@ The `REACT_APP_` prefix is required by the create-react-app tool, see https://cr
 These variables needs to be provided to the docker compose files via the `.env` file, both for backend and the frontend parts.
 The backend propagates this variable to the `yaptide_flask` container, to be able to verify keycloak tokens.
 The frontend needs to know the URL of the keycloak server, so it can redirect the user to the login page.
-To properly setup these variables in case of ansible deployment, please use `plgrid_vars.yml` as an example.
+To properly setup these variables in case of ansible deployment, please use `yap_dev_vars.yml` as an example.

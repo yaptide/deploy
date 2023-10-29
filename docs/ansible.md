@@ -95,7 +95,7 @@ ansible-playbook cloud_instance.yml -e "flavor_name='h2.large'"
 ```
 
 You can combine both options:
-    
+
 ```bash
 ansible-playbook cloud_instance.yml -e "image_name='Ubuntu 22.04 LTS Snapshot (20230404)'" -e "flavor_name='h2.large'"
 ```
@@ -125,20 +125,20 @@ ansible-playbook site.yml -e backend_repo_version='backend-branch-name' -e front
 ```
 
 To specify different IP of the backend and frontend:
-    
+
 ```bash
 ansible-playbook site.yml -e frontend_backend_hostname='149.156.182.181' -e frontend_ui_hostname='149.156.182.181' -e backend_repo_version='backend-branch-name' -e frontend_repo_version='frontend-branch-name'
 ```
 or
 
 ```
-ansible-playbook site.yml -e frontend_backend_hostname='yap-dev.c3.plgrid.pl' -e frontend_backend_url='https://yap-dev.c3.plgrid.pl:5000' -e frontend_ui_hostname='yap-dev.c3.plgrid.pl' -e frontend_ui_hostname='https://yap-dev.c3.plgrid.pl' 
+ansible-playbook site.yml -e frontend_backend_hostname='yap-dev.c3.plgrid.pl' -e frontend_backend_url='https://yap-dev.c3.plgrid.pl:5000' -e frontend_ui_hostname='yap-dev.c3.plgrid.pl' -e frontend_ui_hostname='https://yap-dev.c3.plgrid.pl'
 ```
 
-or 
+or
 
 ```
-ansible-playbook site.yml -e @plgrid_vars.yml
+ansible-playbook site.yml -e @yap_dev_vars.yml
 ```
 
 You can also run only few stages of the deployment. For example to perform only installation of necessary packages, use the following command:
