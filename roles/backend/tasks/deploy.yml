@@ -9,13 +9,13 @@
 - name: Copy the SSL certificate from local machine
   ansible.builtin.copy:
     src: '{{ backend_ssl_crt }}'
-    dest: '{{ backend_repo_workdir }} / server.crt'
+    dest: '{{ backend_repo_workdir }}/server.crt'
     mode: '0400'
 
 - name: Copy the SSL key from local machine
   ansible.builtin.copy:
     src: '{{ backend_ssl_key }}'
-    dest: '{{ backend_repo_workdir }} / server.key'
+    dest: '{{ backend_repo_workdir }}/server.key'
     mode: '0400'
 
 # get fact about number of cores

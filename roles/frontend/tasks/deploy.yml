@@ -18,13 +18,13 @@
 - name: Copy the SSL certificate from local machine
   ansible.builtin.copy:
     src: '{{ frontend_ssl_crt }}'
-    dest: '{{ frontend_repo_workdir }} / server.crt'
+    dest: '{{ frontend_repo_workdir }}/server.crt'
     mode: '0400'
 
 - name: Copy the SSL key from local machine
   ansible.builtin.copy:
     src: '{{ frontend_ssl_key }}'
-    dest: '{{ frontend_repo_workdir }} / server.key'
+    dest: '{{ frontend_repo_workdir }}/server.key'
     mode: '0400'
 
 
