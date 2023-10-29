@@ -1,6 +1,7 @@
 
 # TODO check which collection version should be used
 # https://github.com/openstack/ansible-collections-openstack
-# take a look at the notes about OpenStack SDK 1.0 
+# take a look at the notes about OpenStack SDK 1.0
 openstacksdk<=0.98.999
-ansible
+ansible==7.5.0
+pre-commit==3.5.0
