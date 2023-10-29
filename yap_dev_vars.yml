@@ -2,7 +2,8 @@
 
 # openstack settings
 openstack_instance_hostname: 'yap-dev'
-openstack_setup_network: true
+openstack_setup_network: false
+openstack_floating_ip_address: '149.156.182.181'
 
 # where to deploy
 variable_host: 'yap-dev'
@@ -33,4 +34,4 @@ backend_keycloak_realm: 'PLGrid'
 
 # github repo settings
 frontend_repo_version: '1280-unhandled-keycloak-log-in-failure'
-backend_repo_version: '394-deploy-fluka-binary-to-backend-from-s3-object'
+backend_repo_version: '682-better-handling-of-error-messages-on-slurm'
