@@ -26,4 +26,4 @@ backend_keycloak_realm: 'PLGrid'
 
 # github repo settings
 frontend_repo_version: '1280-unhandled-keycloak-log-in-failure'
-backend_repo_version: 'master'
+backend_repo_version: '394-deploy-fluka-binary-to-backend-from-s3-object'

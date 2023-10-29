@@ -6,17 +6,20 @@
     version: '{{ backend_repo_version }}'
     force: true  # at later stages repo can be manually modified, therefore we do a force checkout
 
-- name: Copy the certificate files
+- name: Copy the SSL certificate from local machine
   ansible.builtin.copy:
-    src: '{{ item }}'
-    dest: '{{ backend_repo_workdir }}'
+    src: '{{ backend_ssl_crt }}'
+    dest: '{{ backend_repo_workdir }} / server.crt'
     mode: '0400'
-  with_items:
-    - 'server.crt'
-    - 'server.key'
+
+- name: Copy the SSL key from local machine
+  ansible.builtin.copy:
+    src: '{{ backend_ssl_key }}'
+    dest: '{{ backend_repo_workdir }} / server.key'
+    mode: '0400'
 
 # get fact about number of cores
-# # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/setup_module.html
+# https://docs.ansible.com/ansible/latest/collections/ansible/builtin/setup_module.html
 - name: Get number of cores
   ansible.builtin.setup:
     filter: ansible_processor_vcpus

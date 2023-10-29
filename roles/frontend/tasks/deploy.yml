@@ -15,14 +15,18 @@
     regexp: '^(\s*server_name\s*)localhost;'
     line: 'server_name {{ frontend_ui_hostname }};'
 
-- name: Copy the certificate files
+- name: Copy the SSL certificate from local machine
   ansible.builtin.copy:
-    src: '{{ item }}'
-    dest: '{{ frontend_repo_workdir }}'
+    src: '{{ frontend_ssl_crt }}'
+    dest: '{{ frontend_repo_workdir }} / server.crt'
     mode: '0400'
-  with_items:
-    - 'server.crt'
-    - 'server.key'
+
+- name: Copy the SSL key from local machine
+  ansible.builtin.copy:
+    src: '{{ frontend_ssl_key }}'
+    dest: '{{ frontend_repo_workdir }} / server.key'
+    mode: '0400'
+
 
 - name: Create .env file with REACT_APP_BACKEND_URL
   ansible.builtin.blockinfile:
