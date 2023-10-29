@@ -16,9 +16,11 @@
   openstack.cloud.router:
     state: absent
     name: "{{ openstack_router_name }}"
+  when: openstack_delete_router_on_teardown
 
 # https://docs.ansible.com/ansible/latest/collections/openstack/cloud/network_module.html
 - name: Delete the network
   openstack.cloud.network:
     state: absent
     name: "{{ openstack_network_name }}"
+  when: openstack_delete_network_on_teardown

@@ -15,3 +15,7 @@ dns_nameservers:
 openstack_router_name: "yaptide_router"
 openstack_external_network_name: "external-10-192"
 openstack_security_group_name: "yaptide_secgr"
+openstack_floating_ip_address: ""
+
+openstack_delete_network_on_teardown: true
+openstack_delete_router_on_teardown: true

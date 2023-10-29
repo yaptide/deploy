@@ -74,6 +74,7 @@
     server: "{{ openstack_instance_hostname }}"
     network: "{{ openstack_external_network_name }}"
     nat_destination: "{{ openstack_network_name }}"
+    floating_ip_address: "{{ openstack_floating_ip_address | default(omit) }}"
     reuse: true
     wait: true
   register: openstack_floating_ip_facts
