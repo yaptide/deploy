@@ -1,6 +1,6 @@
 # use bash script to get all PR patches from github
 # install gh cli tool before running this script
-# login to gh cli tool before running this script
+# run `gh auth login` before running this script
 import subprocess
 import json
 
