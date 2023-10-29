@@ -10,7 +10,7 @@
 - name: Create the network
   openstack.cloud.network:
     state: present
-    name: "{{ network_name }}"
+    name: "{{ openstack_network_name }}"
   register: openstack_network_facts
 
 # https://docs.ansible.com/ansible/latest/collections/openstack/cloud/subnet_module.html
@@ -18,10 +18,10 @@
   openstack.cloud.subnet:
     state: present
     network_name: "{{ openstack_network_facts.id }}"
-    name: "{{ subnet_name }}"
+    name: "{{ openstack_subnet_name }}"
     ip_version: 4
-    cidr: "{{ subnet_cidr }}"
-    gateway_ip: "{{ gateway_ip }}"
+    cidr: "{{ openstack_subnet_cidr }}"
+    gateway_ip: "{{ openstack_gateway_ip }}"
     enable_dhcp: true
     dns_nameservers: "{{ dns_nameservers }}"
 
@@ -29,28 +29,28 @@
 - name: Create the router
   openstack.cloud.router:
     state: present
-    name: "{{ router_name }}"
-    network: "{{ external_network_name }}"
+    name: "{{ openstack_router_name }}"
+    network: "{{ openstack_external_network_name }}"
     interfaces:
-      - "{{ subnet_name }}"
+      - "{{ openstack_subnet_name }}"
 
 # https://docs.ansible.com/ansible/latest/collections/openstack/cloud/security_group_module.html
 - name: Create a new security group
   openstack.cloud.security_group:
     state: present
-    name: "{{ security_group_name }}"
+    name: "{{ openstack_security_group_name }}"
 
 # https://docs.ansible.com/ansible/latest/collections/openstack/cloud/security_group_rule_module.html
 - name: Create a new security group allowing any ICMP
   openstack.cloud.security_group_rule:
-    security_group: "{{ security_group_name }}"
+    security_group: "{{ openstack_security_group_name }}"
     protocol: icmp
     remote_ip_prefix: 0.0.0.0/0
 
 # https://docs.ansible.com/ansible/latest/collections/openstack/cloud/security_group_rule_module.html
 - name: Create a new security group opening several ports
   openstack.cloud.security_group_rule:
-    security_group: "{{ security_group_name }}"
+    security_group: "{{ openstack_security_group_name }}"
     protocol: tcp
     port_range_min: '{{ item }}'
     port_range_max: '{{ item }}'
@@ -71,9 +71,9 @@
 
 - name: Assign a floating IP to the instance
   openstack.cloud.floating_ip:
-    server: "{{ instance_hostname }}"
-    network: "{{ external_network_name }}"
-    nat_destination: "{{ network_name }}"
+    server: "{{ openstack_instance_hostname }}"
+    network: "{{ openstack_external_network_name }}"
+    nat_destination: "{{ openstack_network_name }}"
     reuse: true
     wait: true
   register: openstack_floating_ip_facts

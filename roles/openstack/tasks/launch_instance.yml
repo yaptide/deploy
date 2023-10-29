@@ -12,21 +12,21 @@
     - name: Delete an instance
       openstack.cloud.server:
         state: absent
-        name: "{{ instance_hostname }}"
+        name: "{{ openstack_instance_hostname }}"
 
     # https://docs.ansible.com/ansible/latest/collections/openstack/cloud/server_module.html
     # TODO add better handling of error in case of failure
     - name: Launch an instance
       openstack.cloud.server:
         state: present
-        name: "{{ instance_hostname }}"
+        name: "{{ openstack_instance_hostname }}"
         image: "{{ image_name }}"
         key_name: "{{ key_name }}"
         flavor: "{{ flavor_name }}"
         nics:
-          - net-name: "{{ network_name }}"
+          - net-name: "{{ openstack_network_name }}"
         auto_ip: false  # public IP will be assigned in the next task
-        security_groups: "{{ security_group_name }}"
+        security_groups: "{{ openstack_security_group_name }}"
       register: openstack_instance_facts
       failed_when: (openstack_instance_facts.server.addresses | dict2items | first).value | map(attribute='addr') | select('match', '10.0.0.*') | length != 1
 

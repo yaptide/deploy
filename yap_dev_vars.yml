@@ -1,5 +1,14 @@
 ---
 
+# openstack settings
+openstack_instance_hostname: 'yap-dev'
+openstack_network_name: 'yap-dev-network'
+openstack_subnet_name: 'yap-dev-subnet'
+openstack_subnet_cidr: '10.0.0.0/24'
+openstack_gateway_ip: '10.0.0.1'
+openstack_router_name: 'yap-dev-router'
+openstack_security_group_name: 'yap-dev-secgr'
+
 # general settings
 frontend_backend_hostname: 'yap-dev.c3.plgrid.pl'
 frontend_backend_url: 'https://yap-dev.c3.plgrid.pl:8443'

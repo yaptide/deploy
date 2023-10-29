@@ -9,7 +9,7 @@ backend_backend_external_url: "http://localhost:5000"
 backend_keycloak_base_url: ""
 backend_keycloak_realm: ""
 
-backend_ssl_crt : "server.crt"
-backend_ssl_key : "server.key"
+backend_ssl_crt: "server.crt"
+backend_ssl_key: "server.key"
 
 ansible_become: false

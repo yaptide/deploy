@@ -12,5 +12,5 @@ frontend_keycloak_base_url: ""
 frontend_keycloak_realm: ""
 frontend_keycloak_client_id: ""
 
-frontend_ssl_crt : "server.crt"
-frontend_ssl_key : "server.key"
+frontend_ssl_crt: "server.crt"
+frontend_ssl_key: "server.key"
