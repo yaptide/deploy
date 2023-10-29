@@ -2,7 +2,7 @@
 
 # openstack settings
 openstack_instance_hostname: 'yaptide'
-openstack_setup_network: true
+openstack_setup_network: false
 
 # where to deploy
 variable_host: 'yaptide'

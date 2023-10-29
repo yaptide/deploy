@@ -2,7 +2,7 @@
 
 # openstack settings
 openstack_instance_hostname: 'yap-dev'
-openstack_setup_network: false
+openstack_setup_network: true
 
 # where to deploy
 variable_host: 'yap-dev'
