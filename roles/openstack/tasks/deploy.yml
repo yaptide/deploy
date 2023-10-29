@@ -12,6 +12,7 @@
     state: present
     name: "{{ openstack_network_name }}"
   register: openstack_network_facts
+  when: openstack_setup_network
 
 # https://docs.ansible.com/ansible/latest/collections/openstack/cloud/subnet_module.html
 - name: Create the subnet

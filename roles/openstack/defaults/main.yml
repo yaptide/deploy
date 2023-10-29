@@ -6,16 +6,16 @@ flavor_name: "h2.large"
 
 openstack_networking:
   - {
-      subnet: "yaptide_subnet",
-      cidr: "10.0.0.0/24",
-      gateway_ip: "10.0.0.1",
-      security_group_name: "yaptide_secgr"
+    subnet: "yaptide_subnet",
+    cidr: "10.0.0.0/24",
+    gateway_ip: "10.0.0.1",
+    security_group_name: "yaptide_secgr"
   }
   - {
-      subnet: "yap_dev_subnet",
-      cidr: "20.0.0.0/24",
-      gateway_ip: "20.0.0.1",
-      security_group_name: "yap_dev_secgr"
+    subnet: "yap_dev_subnet",
+    cidr: "20.0.0.0/24",
+    gateway_ip: "20.0.0.1",
+    security_group_name: "yap_dev_secgr"
   }
 
 openstack_network_name: "yaptide-network"
