@@ -2,14 +2,7 @@
 
 # openstack settings
 openstack_instance_hostname: 'yap-dev'
-openstack_network_name: 'yaptide-network'
-openstack_subnet_name: 'yap-dev-subnet'
-openstack_subnet_cidr: '10.0.0.0/24'
-openstack_gateway_ip: '10.0.0.1'
-openstack_router_name: 'yaptide-router'
-openstack_security_group_name: 'yap-dev-secgr'
-openstack_delete_network_on_teardown: false
-openstack_delete_router_on_teardown: false
+openstack_setup_network: false
 
 # where to deploy
 variable_host: 'yap-dev'

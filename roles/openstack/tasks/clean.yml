@@ -10,17 +10,18 @@
   openstack.cloud.security_group:
     state: absent
     name: "{{ openstack_security_group_name }}"
+  when: openstack_setup_network
 
 # https://docs.ansible.com/ansible/latest/collections/openstack/cloud/router_module.html
 - name: Delete the router
   openstack.cloud.router:
     state: absent
     name: "{{ openstack_router_name }}"
-  when: openstack_delete_router_on_teardown
+  when: openstack_setup_network
 
 # https://docs.ansible.com/ansible/latest/collections/openstack/cloud/network_module.html
 - name: Delete the network
   openstack.cloud.network:
     state: absent
     name: "{{ openstack_network_name }}"
-  when: openstack_delete_network_on_teardown
+  when: openstack_setup_network
