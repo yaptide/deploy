@@ -9,6 +9,9 @@ openstack_gateway_ip: '10.0.0.1'
 openstack_router_name: 'yap-dev-router'
 openstack_security_group_name: 'yap-dev-secgr'
 
+# where to deploy
+variable_host: 'yap-dev'
+
 # general settings
 frontend_backend_hostname: 'yap-dev.c3.plgrid.pl'
 frontend_backend_url: 'https://yap-dev.c3.plgrid.pl:8443'
