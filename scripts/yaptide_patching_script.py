@@ -10,7 +10,7 @@ from zipfile import ZipFile
 
 
 def main():
-    base_dir = Path(__file__).resolve().parent
+    base_dir = Path(__file__).resolve().parent.parent
     patches_dir = base_dir / "patches"
     patches_dir.mkdir(exist_ok=True)
 
