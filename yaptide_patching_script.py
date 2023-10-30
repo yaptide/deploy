@@ -28,8 +28,7 @@ def main():
             patch = subprocess.check_output(
                 f'gh pr --repo {repo} diff {PR["number"]} --patch', shell=True, text=True)
 
-            with open(patches_dir / f'patch_{repo_name}_{PR["number"]}.patch', 'w') as f:
-                f.write(patch)
+            (patches_dir / f'patch_{repo_name}_{PR["number"]}.patch').write_text(patch)
 
     zip_file = base_dir / "patches.zip"
     with ZipFile(zip_file, 'w') as zip_obj:
