@@ -32,9 +32,9 @@ def main():
                 f.write(patch)
 
     zip_file = base_dir / "patches.zip"
-    with ZipFile(zip_file, 'w') as zipObj:
+    with ZipFile(zip_file, 'w') as zip_obj:
         for file in patches_dir.iterdir():
-            zipObj.write(file)
+            zip_obj.write(file)
 
 
 if __name__ == "__main__":
