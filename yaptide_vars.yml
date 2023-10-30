@@ -15,10 +15,10 @@ frontend_ui_hostname: 'yaptide.c3.plgrid.pl'
 frontend_ui_url: 'https://yaptide.c3.plgrid.pl'
 
 # SSL certificates
-frontend_ssl_crt: 'yap_dev.c3.plgrid.pl.crt'
-frontend_ssl_key: 'yap_dev.c3.plgrid.pl.key'
-backend_ssl_crt: 'yap_dev.c3.plgrid.pl.crt'
-backend_ssl_key: 'yap_dev.c3.plgrid.pl.key'
+frontend_ssl_crt: 'yaptide.c3.plgrid.pl.crt'
+frontend_ssl_key: 'yaptide.c3.plgrid.pl.key'
+backend_ssl_crt: 'yaptide.c3.plgrid.pl.crt'
+backend_ssl_key: 'yaptide.c3.plgrid.pl.key'
 
 # backend cluster settings
 backend_cluster: 'ares.cyfronet.pl'
@@ -33,5 +33,5 @@ backend_keycloak_base_url: 'https://sso.pre.plgrid.pl'
 backend_keycloak_realm: 'PLGrid'
 
 # github repo settings
-frontend_repo_version: '1280-unhandled-keycloak-log-in-failure'
-backend_repo_version: '394-deploy-fluka-binary-to-backend-from-s3-object'
+frontend_repo_version: 'master'
+backend_repo_version: 'master'

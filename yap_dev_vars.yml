@@ -33,5 +33,5 @@ backend_keycloak_base_url: 'https://sso.pre.plgrid.pl'
 backend_keycloak_realm: 'PLGrid'
 
 # github repo settings
-frontend_repo_version: '1280-unhandled-keycloak-log-in-failure'
+frontend_repo_version: 'dependabot/npm_and_yarn/mui/lab-5.0.0-alpha.150'
 backend_repo_version: '682-better-handling-of-error-messages-on-slurm'
