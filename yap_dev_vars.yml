@@ -1,10 +1,24 @@
 ---
 
+# openstack settings
+openstack_instance_hostname: 'yap-dev'
+openstack_setup_network: false
+openstack_floating_ip_address: '149.156.182.181'
+
+# where to deploy
+variable_host: 'yap-dev'
+
 # general settings
 frontend_backend_hostname: 'yap-dev.c3.plgrid.pl'
 frontend_backend_url: 'https://yap-dev.c3.plgrid.pl:8443'
 frontend_ui_hostname: 'yap-dev.c3.plgrid.pl'
 frontend_ui_url: 'https://yap-dev.c3.plgrid.pl'
+
+# SSL certificates
+frontend_ssl_crt: 'yap_dev.c3.plgrid.pl.crt'
+frontend_ssl_key: 'yap_dev.c3.plgrid.pl.key'
+backend_ssl_crt: 'yap_dev.c3.plgrid.pl.crt'
+backend_ssl_key: 'yap_dev.c3.plgrid.pl.key'
 
 # backend cluster settings
 backend_cluster: 'ares.cyfronet.pl'
@@ -19,5 +33,5 @@ backend_keycloak_base_url: 'https://sso.pre.plgrid.pl'
 backend_keycloak_realm: 'PLGrid'
 
 # github repo settings
-frontend_repo_version: 'master'
-backend_repo_version: 'master'
+frontend_repo_version: 'dependabot/npm_and_yarn/mui/lab-5.0.0-alpha.150'
+backend_repo_version: '682-better-handling-of-error-messages-on-slurm'

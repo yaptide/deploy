@@ -1,0 +1,37 @@
+---
+
+# openstack settings
+openstack_instance_hostname: 'yaptide'
+openstack_setup_network: false
+openstack_floating_ip_address: '149.156.182.242'
+
+# where to deploy
+variable_host: 'yaptide'
+
+# general settings
+frontend_backend_hostname: 'yaptide.c3.plgrid.pl'
+frontend_backend_url: 'https://yaptide.c3.plgrid.pl:8443'
+frontend_ui_hostname: 'yaptide.c3.plgrid.pl'
+frontend_ui_url: 'https://yaptide.c3.plgrid.pl'
+
+# SSL certificates
+frontend_ssl_crt: 'yaptide.c3.plgrid.pl.crt'
+frontend_ssl_key: 'yaptide.c3.plgrid.pl.key'
+backend_ssl_crt: 'yaptide.c3.plgrid.pl.crt'
+backend_ssl_key: 'yaptide.c3.plgrid.pl.key'
+
+# backend cluster settings
+backend_cluster: 'ares.cyfronet.pl'
+backend_cert_auth_url: 'https://ccm-dev.kdm.cyfronet.pl/key'
+backend_backend_external_url: 'https://yaptide.c3.plgrid.pl:8443'
+
+# keycloak settings
+frontend_keycloak_base_url: 'https://sso.pre.plgrid.pl'
+frontend_keycloak_realm: 'PLGrid'
+frontend_keycloak_client_id: 'yaptide-staging'
+backend_keycloak_base_url: 'https://sso.pre.plgrid.pl'
+backend_keycloak_realm: 'PLGrid'
+
+# github repo settings
+frontend_repo_version: 'master'
+backend_repo_version: 'master'

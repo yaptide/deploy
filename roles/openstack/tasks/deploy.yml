@@ -10,55 +10,65 @@
 - name: Create the network
   openstack.cloud.network:
     state: present
-    name: "{{ network_name }}"
+    name: "{{ openstack_network_name }}"
   register: openstack_network_facts
+  when: openstack_setup_network
 
 # https://docs.ansible.com/ansible/latest/collections/openstack/cloud/subnet_module.html
 - name: Create the subnet
   openstack.cloud.subnet:
     state: present
     network_name: "{{ openstack_network_facts.id }}"
-    name: "{{ subnet_name }}"
+    name: "{{ item.subnet }}"
     ip_version: 4
-    cidr: "{{ subnet_cidr }}"
-    gateway_ip: "{{ gateway_ip }}"
+    cidr: "{{ item.cidr }}"
+    gateway_ip: "{{ item.gateway_ip }}"
     enable_dhcp: true
     dns_nameservers: "{{ dns_nameservers }}"
+  when: openstack_setup_network
+  loop: "{{ openstack_networking }}"
 
 # https://docs.ansible.com/ansible/latest/collections/openstack/cloud/router_module.html
 - name: Create the router
   openstack.cloud.router:
     state: present
-    name: "{{ router_name }}"
-    network: "{{ external_network_name }}"
-    interfaces:
-      - "{{ subnet_name }}"
+    name: "{{ openstack_router_name }}"
+    network: "{{ openstack_external_network_name }}"
+    interfaces: "{{ openstack_networking | map(attribute='subnet') | list }}"
+  when: openstack_setup_network
 
 # https://docs.ansible.com/ansible/latest/collections/openstack/cloud/security_group_module.html
 - name: Create a new security group
   openstack.cloud.security_group:
     state: present
-    name: "{{ security_group_name }}"
+    name: "{{ item.security_group_name }}"
+  when: openstack_setup_network
+  loop: "{{ openstack_networking }}"
 
 # https://docs.ansible.com/ansible/latest/collections/openstack/cloud/security_group_rule_module.html
 - name: Create a new security group allowing any ICMP
   openstack.cloud.security_group_rule:
-    security_group: "{{ security_group_name }}"
+    security_group: "{{ item.security_group_name }}"
     protocol: icmp
     remote_ip_prefix: 0.0.0.0/0
+  when: openstack_setup_network
+  loop: "{{ openstack_networking }}"
 
 # https://docs.ansible.com/ansible/latest/collections/openstack/cloud/security_group_rule_module.html
 - name: Create a new security group opening several ports
   openstack.cloud.security_group_rule:
-    security_group: "{{ security_group_name }}"
+    security_group: "{{ item.0.security_group_name }}"
     protocol: tcp
-    port_range_min: '{{ item }}'
-    port_range_max: '{{ item }}'
+    port_range_min: '{{ item.1 }}'
+    port_range_max: '{{ item.1 }}'
     remote_ip_prefix: 0.0.0.0/0
-  loop:
-    - 22
-    - 443
-    - 8443
+  loop: "{{ openstack_networking | product(port_list) }}"
+  vars:
+    port_list:
+      - 22
+      - 443
+      - 8443
+  when: openstack_setup_network
 
 # At the moment of writing cloud infrastructure (C3 @ plgrid) has issues with creating instances
 # Due to some problems two network interfaces are created for each instance, causing problems with
@@ -71,9 +81,10 @@
 
 - name: Assign a floating IP to the instance
   openstack.cloud.floating_ip:
-    server: "{{ instance_hostname }}"
-    network: "{{ external_network_name }}"
-    nat_destination: "{{ network_name }}"
+    server: "{{ openstack_instance_hostname }}"
+    network: "{{ openstack_external_network_name }}"
+    nat_destination: "{{ openstack_network_name }}"
+    floating_ip_address: "{{ openstack_floating_ip_address | default(omit) }}"
     reuse: true
     wait: true
   register: openstack_floating_ip_facts

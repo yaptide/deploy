@@ -2,23 +2,26 @@
 - name: Delete an instance
   openstack.cloud.server:
     state: absent
-    name: "{{ instance_hostname }}"
+    name: "{{ openstack_instance_hostname }}"
 
 # https://docs.ansible.com/ansible/latest/collections/openstack/cloud/security_group_module.html
 # TODO there may be other instance, check for presence before deleting
 - name: Delete security group
   openstack.cloud.security_group:
     state: absent
-    name: "{{ security_group_name }}"
+    name: "{{ openstack_security_group_name }}"
+  when: openstack_setup_network
 
 # https://docs.ansible.com/ansible/latest/collections/openstack/cloud/router_module.html
 - name: Delete the router
   openstack.cloud.router:
     state: absent
-    name: "{{ router_name }}"
+    name: "{{ openstack_router_name }}"
+  when: openstack_setup_network
 
 # https://docs.ansible.com/ansible/latest/collections/openstack/cloud/network_module.html
 - name: Delete the network
   openstack.cloud.network:
     state: absent
-    name: "{{ network_name }}"
+    name: "{{ openstack_network_name }}"
+  when: openstack_setup_network
