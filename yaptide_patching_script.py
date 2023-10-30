@@ -24,11 +24,11 @@ def main():
         print(f"Number of patches for {repo} repo: {len(data)}")
 
         # get patches for each PR
-        for i, PR in enumerate(tqdm(data, desc=f"Getting patches for {repo_name} repo", unit="patch")):
+        for pull_request in tqdm(data, desc=f"Getting patches for {repo_name} repo", unit="patch"):
             patch = subprocess.check_output(
-                f'gh pr --repo {repo} diff {PR["number"]} --patch', shell=True, text=True)
+                f'gh pr --repo {repo} diff {pull_request["number"]} --patch', shell=True, text=True)
 
-            (patches_dir / f'patch_{repo_name}_{PR["number"]}.patch').write_text(patch)
+            (patches_dir / f'patch_{repo_name}_{pull_request["number"]}.patch').write_text(patch)
 
     zip_file = base_dir / "patches.zip"
     with ZipFile(zip_file, 'w') as zip_obj:
