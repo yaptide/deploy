@@ -12,4 +12,8 @@ backend_keycloak_realm: ""
 backend_ssl_crt: "server.crt"
 backend_ssl_key: "server.key"
 
+backend_postgres_db: "yaptide"
+backend_postgres_user: "yaptide"
+backend_postgres_password: "yaptide"
+
 ansible_become: false

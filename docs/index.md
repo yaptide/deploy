@@ -26,11 +26,11 @@ git clone --recurse-submodules https://github.com/yaptide/ui.git
 
 Note `--recurse-submodules`. This is needed as the converter package is included as a submodule in both repositories.
 
-Local deployment allows only for job execution on Celery worker. To be able to submit jobs to the HPC cluster, one needs to have access to the 
+Local deployment allows only for job execution on Celery worker. To be able to submit jobs to the HPC cluster, one needs to have access to the
 
 ## Deploying backend
 
-Lets start with deploying backend using docker compose. This should take couple of minutes to complete. 
+Lets start with deploying backend using docker compose. This should take couple of minutes to complete.
 
 First go to the directory where backend was cloned:
 ```bash
@@ -51,7 +51,7 @@ The `yaptide_nginx` container serves as a proxy and is exposing the REST API on 
 
 ## Deploying frontend
 
-In a similar way as for backend, the frontend can be deployed using docker compose. This should take couple of minutes to complete. 
+In a similar way as for backend, the frontend can be deployed using docker compose. This should take couple of minutes to complete.
 
 First go to the directory where frontend was cloned:
 ```bash
@@ -76,10 +76,10 @@ Frontend is configured to use the backend REST API exposed on port 5000, using p
 At this point there is no single user in the database, so we need to create one. This can be done using the following command:
 
 ```bash
-docker exec yaptide_flask python3 yaptide/admin/db_manage.py add-user admin --password password
+docker exec yaptide_flask ./yaptide/admin/db_manage.py add-user admin --password password
 ```
 
 ## Running first simulation
 
-Now we are ready to run our first simulation. First we need to login to the frontend. Open your browser and navigate to [http://localhost:80](http://localhost:80) or [https://localhost:443](https://localhost:443). 
+Now we are ready to run our first simulation. First we need to login to the frontend. Open your browser and navigate to [http://localhost:80](http://localhost:80) or [https://localhost:443](https://localhost:443).
 Login with the credentials created in the previous step.

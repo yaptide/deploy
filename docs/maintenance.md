@@ -32,7 +32,7 @@ Note the `--build` flag. It is needed to rebuild the containers, as the source c
 
 ## Storage volume
 
-The yaptide backend uses the docker volume named `yaptide_data` to store the data. It hosts SQLite database with following information:
+The yaptide backend uses the docker volume named `yaptide_data` to store the data. It hosts PostgreSQL data with following information:
 
   * user accounts
   * data related to simulations:
@@ -55,11 +55,11 @@ The SSL certificates are used to secure the communication for two cases:
   * between the user client and the machine serving the UI
   * between the user client and the machine serving the backend
 
-Frontend uses Nginx to serve statically generated HTML, CSS and JavaScript files. 
+Frontend uses Nginx to serve statically generated HTML, CSS and JavaScript files.
 Backend uses Nginx as a proxy to forward requests to the backend server.
 Both Nginx instances are configured to use SSL certificates.
 
-By default the self-signed certificates are used (usually not trusted by the browser). 
+By default the self-signed certificates are used (usually not trusted by the browser).
 They are generated automatically when the containers are started for the first time.
 
 To replace self-signed certificates with your own, stop the containers and replace the files according to the following recipe.
