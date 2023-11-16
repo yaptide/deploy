@@ -1,3 +1,5 @@
 mode: deploy
 
 backend_password: "{{ lookup('ansible.builtin.password', 'roles/backend/files/password length=25 chars=ascii_letters,digits') }}"
+backend_postgres_user: "{{ lookup('ansible.builtin.password', 'roles/backend/files/postgres_user length=25 chars=ascii_letters,digits') }}"
+backend_postgres_password: "{{ lookup('ansible.builtin.password', 'roles/backend/files/postgres_password length=25 chars=ascii_letters,digits') }}"

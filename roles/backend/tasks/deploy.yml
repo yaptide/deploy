@@ -45,6 +45,9 @@
       {% if lookup('file', './.env', errors='ignore') is defined %}
       {{ lookup('file', './.env', errors='ignore') }}
       {% endif %}
+      POSTGRES_DB = {{ backend_postgres_db }}
+      POSTGRES_USER = {{ backend_postgres_user }}
+      POSTGRES_PASSWORD = {{ backend_postgres_password }}
 
 
 # https://docs.ansible.com/ansible/latest/collections/community/docker/docker_compose_module.html
@@ -75,11 +78,12 @@
     command: 'python3 yaptide/admin/db_manage.py add-user admin --password {{ backend_password }}'
     chdir: /usr/local/app/
   register: backend_add_user_output
+  retries: 5
+  delay: 5
 
 - name: Print output of add-user command
   ansible.builtin.debug:
     msg: '{{ backend_add_user_output.stdout_lines }}'
-
 
 - name: Insert first cluster into database
   community.docker.docker_container_exec:
