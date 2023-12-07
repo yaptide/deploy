@@ -33,5 +33,5 @@ backend_keycloak_base_url: 'https://sso.pre.plgrid.pl'
 backend_keycloak_realm: 'PLGrid'
 
 # github repo settings
-frontend_repo_version: 'master'
-backend_repo_version: '710-choose-more-efficient-db-engine'
+frontend_repo_version: 'converter-169-send-particle-name'
+backend_repo_version: 'dependabot/submodules/yaptide/converter-b016f59'
