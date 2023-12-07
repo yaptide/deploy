@@ -26,10 +26,10 @@ backend_cert_auth_url: 'https://ccm-dev.kdm.cyfronet.pl/key'
 backend_backend_external_url: 'https://yaptide.c3.plgrid.pl:8443'
 
 # keycloak settings
-frontend_keycloak_base_url: 'https://sso.pre.plgrid.pl'
+frontend_keycloak_base_url: 'https://sso.plgrid.pl'
 frontend_keycloak_realm: 'PLGrid'
-frontend_keycloak_client_id: 'yaptide-staging'
-backend_keycloak_base_url: 'https://sso.pre.plgrid.pl'
+frontend_keycloak_client_id: 'yaptide.c3.plgrid.pl'
+backend_keycloak_base_url: 'https://sso.plgrid.pl'
 backend_keycloak_realm: 'PLGrid'
 
 # github repo settings
