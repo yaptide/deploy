@@ -136,7 +136,7 @@ tar -zcvf pathtofluka.tar.gz pathtofluka/
 For our example it will take form of:
 
 ```bash
-tar -zcvf fluka-4-3.4.x86-Linux-gfor9-bin.tgz fluka-4-3.4.x86-Linux-gfor9/fluka4-3.4/
+tar -czvf fluka-4-3.4.x86-Linux-gfor9-bin.tgz -C fluka-4-3.4.x86-Linux-gfor9/ fluka4-3.4
 ```
 
 Having compressed archive `fluka-4-3.4.x86-Linux-gfor9-bin.tgz` we can upload it to S3 storage.
