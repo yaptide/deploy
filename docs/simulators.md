@@ -91,17 +91,3 @@ and start them again:
 ```bash
 docker compose up --detach
 ```
-
-## TOPAS support
-In future we plan to add support for TOPAS simulator. Right now it could be installed in the worker container, but TOPAS simulations cannot be executed. To allow installation of TOPAS set following additional variables in the .env file.
-
-```
-S3_TOPAS_BUCKET=bucket_name_with_topas_binary
-S3_TOPAS_KEY=filename_of_topas_binary
-S3_TOPAS_VERSION=version_of_topas
-S3_GEANT_BUCKET=bucket_name_with_geant4_files
-```
-
-* `S3_TOPAS_BUCKET`, `S3_TOPAS_KEY` - location of TOPAS binary in S3 storage
-* `S3_TOPAS_VERSION` - version of TOPAS to be downloaded
-* `S3_GEANT_BUCKET` - location of Geant4 files in S3 storage (required for TOPAS)
