@@ -136,10 +136,10 @@ tar -zcvf pathtofluka.tar.gz pathtofluka/
 For our example it will take form of:
 
 ```bash
-tar -zcvf fluka-4-3.4.x86-Linux-gfor9.tgz fluka-4-3.4.x86-Linux-gfor9/
+tar -zcvf fluka-4-3.4.x86-Linux-gfor9-bin.tgz fluka-4-3.4.x86-Linux-gfor9/fluka4-3.4/
 ```
 
-Having compressed archive `fluka-4-3.4.x86-Linux-gfor9.tgz` we can upload it to S3 storage.
+Having compressed archive `fluka-4-3.4.x86-Linux-gfor9-bin.tgz` we can upload it to S3 storage.
 For security reasons we will also want to encrypt our archive.
 
 For both of these steps we can use script available in [Yaptide repository](https://github.com/yaptide/yaptide/blob/master/yaptide/admin/simulator_storage.py).
@@ -160,8 +160,7 @@ export S3_FLUKA_KEY=fluka-4-3.4.x86-Linux-gfor9-bin.tgz
 Then we can use script to upload and encrypt our archive:
 
 ```bash
-python3 yaptide/admin/simulators.py upload --encrypt --bucket $S3_FLUKA_BUCKET --file ./path_to_fluka_archive/fluka-4-3.4.x86-Linux-gfor9.tgz
-.x86-Linux-gfor7.tar.gz --endpoint $S3_ENDPOINT --access_key $S3_ACCESS_KEY --secret_key $S3_SECRET_KEY --password $S3_ENCRYPTION_PASSWORD --salt $S3_ENCRYPTION_SALT
+python3 yaptide/admin/simulators.py upload --encrypt --bucket $S3_FLUKA_BUCKET --file ./path_to_fluka_archive/fluka-4-3.4.x86-Linux-gfor9-bin.tgz --endpoint $S3_ENDPOINT --access_key $S3_ACCESS_KEY --secret_key $S3_SECRET_KEY --password $S3_ENCRYPTION_PASSWORD --salt $S3_ENCRYPTION_SALT
 ```
 
 #### Download Fluka from S3 storage to verify checksum
