@@ -87,3 +87,77 @@ sequenceDiagram
     BackendApp-->>Client: POST /jobs/direct response (Simulation ID)
     deactivate Client
 ```
+
+Single task execution:
+
+```mermaid
+sequenceDiagram
+    # simulation execution
+    autonumber
+    participant Client as REST Client
+    participant BackendApp as Flask
+    participant Database as Database
+    participant CeleryQueue as Celery Queue
+    participant CeleryBroker as Celery Broker (Redis)
+    participant CeleryBackend as Celery Backend (Redis)
+    participant CeleryWorker as Celery Worker
+    participant SimulationProcess as Simulation process
+    participant LogsWatcher as Simulation monitor
+    participant SimulationLogs as Simulation logfile
+    participant SimulationOutput as Simulation output file
+
+    activate CeleryWorker
+    CeleryBroker->>CeleryWorker: Fetch simulation task
+
+    CeleryWorker->>BackendApp: POST /tasks
+    activate BackendApp
+    BackendApp->>Database: Commit update of task object
+    activate Database
+    Database-->>BackendApp: Acknowledge Commit
+    deactivate Database
+    BackendApp-->>CeleryWorker: POST /tasks response
+    deactivate BackendApp
+
+    CeleryWorker->>LogsWatcher: Starts monitoring process
+    activate LogsWatcher
+    CeleryWorker->>SimulationProcess: Starts simulation process
+    activate SimulationProcess
+
+    par logfile production
+        loop every 1000 primary particles
+            SimulationProcess->>SimulationLogs: Appends lines with status
+        end
+    and logfile monitoring
+        loop watch logfile for new lines
+            LogsWatcher->>SimulationLogs: Reads line with progress
+
+            LogsWatcher->>BackendApp: POST /tasks (not often than every 2 seconds)
+            activate BackendApp
+            BackendApp->>Database: Commit update of task object
+            activate Database
+            Database-->>BackendApp: Acknowledge Commit
+            deactivate Database
+            BackendApp-->>LogsWatcher: POST /tasks response
+            deactivate BackendApp
+        end
+    end
+
+    SimulationProcess->>SimulationOutput: Saves output file
+    deactivate SimulationProcess
+    deactivate LogsWatcher
+
+    CeleryWorker->>SimulationOutput: Reads output into JSON
+
+    CeleryWorker->>BackendApp: POST /tasks
+    activate BackendApp
+    BackendApp->>Database: Commit update of task object
+    activate Database
+    Database-->>BackendApp: Acknowledge Commit
+    deactivate Database
+    BackendApp-->>CeleryWorker: POST /tasks response
+    deactivate BackendApp
+
+    CeleryWorker->>CeleryBackend: Save task results
+
+    deactivate CeleryWorker
+```
