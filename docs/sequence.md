@@ -56,3 +56,33 @@ sequenceDiagram
     end
     deactivate FrontendApp
 ```
+
+### Job submission in more details
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant FrontendApp as REST Client
+    participant BackendApp as Flask
+    participant Database as Database
+    participant CeleryQueue as Celery Queue
+
+    activate FrontendApp
+    FrontendApp->>BackendApp: POST /jobs/direct
+    activate BackendApp
+    BackendApp->>+BackendApp: Create Simulation object internally
+    BackendApp->>CeleryQueue: Submit job
+    activate CeleryQueue
+    CeleryQueue->>CeleryBroker: Queue simulation tasks
+    CeleryQueue->>CeleryBroker: Queue merge task
+    CeleryQueue-->>BackendApp: Return merge task (chord) id
+    deactivate CeleryQueue
+    BackendApp->>+BackendApp: Update Simulation object with Job ID
+    BackendApp->>Database: Commit Simulation object to Database
+    activate Database
+    Database-->>BackendApp: Acknowledge Commit
+    deactivate BackendApp
+    deactivate Database
+    BackendApp-->>FrontendApp: POST /jobs/direct response (Simulation ID)
+    deactivate FrontendApp
+```
