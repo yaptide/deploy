@@ -2,7 +2,7 @@ site_name: Deploy documentation
 site_url: https://yaptide.github.io/deploy/
 repo_url: https://github.com/yaptide/deploy
 repo_name: yaptide/deploy
-copyright: Copyright &copy; 2023 the Yaptide team
+copyright: Copyright &copy; 2023-2024 the Yaptide team
 
 theme:
   name: material
@@ -17,6 +17,7 @@ theme:
 nav:
   - Home:
       - Overview: index.md
+      - Event scenarios: sequence.md
       - Maintenance: maintenance.md
       - Simulators: simulators.md
       - Authentication: authentication.md
