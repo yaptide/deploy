@@ -62,13 +62,14 @@ sequenceDiagram
 ```mermaid
 sequenceDiagram
     autonumber
-    participant FrontendApp as REST Client
+    participant Client as REST Client
     participant BackendApp as Flask
     participant Database as Database
     participant CeleryQueue as Celery Queue
+    participant CeleryBroker as Celery Broker (Redis)
 
-    activate FrontendApp
-    FrontendApp->>BackendApp: POST /jobs/direct
+    activate Client
+    Client->>BackendApp: POST /jobs/direct
     activate BackendApp
     BackendApp->>+BackendApp: Create Simulation object internally
     BackendApp->>CeleryQueue: Submit job
@@ -83,6 +84,6 @@ sequenceDiagram
     Database-->>BackendApp: Acknowledge Commit
     deactivate BackendApp
     deactivate Database
-    BackendApp-->>FrontendApp: POST /jobs/direct response (Simulation ID)
-    deactivate FrontendApp
+    BackendApp-->>Client: POST /jobs/direct response (Simulation ID)
+    deactivate Client
 ```
