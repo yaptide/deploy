@@ -1,6 +1,4 @@
 # This file contains ignores rule violations for ansible-lint
-mkdocs.yml yaml[indentation]
-mkdocs.yml yaml[no-role-prefix]
 roles/backend/defaults/main.yml var-naming[no-role-prefix]
 roles/frontend/defaults/main.yml var-naming[no-role-prefix]
 roles/openstack/defaults/main.yml var-naming[no-role-prefix]
