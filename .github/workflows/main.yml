@@ -22,4 +22,4 @@ jobs:
       - name: Lint Ansible Playbooks
         run: |
           pip install ansible-lint
-          ansible-lint *.yml
+          ansible-lint --exclude mkdocs.yml --exclude .pre-commit-config.yaml *.yml
