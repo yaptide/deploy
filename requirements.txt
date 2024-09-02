@@ -4,4 +4,4 @@
 # take a look at the notes about OpenStack SDK 1.0
 openstacksdk<=0.98.999
 ansible==7.5.0
-pre-commit==3.7.1
+pre-commit==3.8.0
