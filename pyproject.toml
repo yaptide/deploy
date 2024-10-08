@@ -9,7 +9,7 @@ readme = "README.md"
 python = "^3.9"
 
 [tool.poetry.group.test.dependencies]
-pre-commit = "3.8.0"
+pre-commit = "4.0.0"
 
 [tool.poetry.group.docs.dependencies]
 mkdocs = "1.5.3"
