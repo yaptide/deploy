@@ -3,5 +3,5 @@
 # https://github.com/openstack/ansible-collections-openstack
 # take a look at the notes about OpenStack SDK 1.0
 openstacksdk<=0.98.999
-ansible==7.5.0
+ansible==11.2.0
 pre-commit==4.1.0
