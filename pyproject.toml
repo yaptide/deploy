@@ -13,7 +13,7 @@ pre-commit = "4.2.0"
 
 [tool.poetry.group.docs.dependencies]
 mkdocs = "1.5.3"
-mkdocs-git-revision-date-localized-plugin = "1.4.5"
+mkdocs-git-revision-date-localized-plugin = "1.4.6"
 mkdocs-coverage = "1.0.0"
 mkdocstrings = {version = ">=0.18", extras = ["python"]}
 mkdocs-material = "9.5.18"
