@@ -24,3 +24,13 @@ These variables needs to be provided to the docker compose files via the `.env` 
 The backend propagates this variable to the `yaptide_flask` container, to be able to verify keycloak tokens.
 The frontend needs to know the URL of the keycloak server, so it can redirect the user to the login page.
 To properly setup these variables in case of ansible deployment, please use `yap_dev_vars.yml` as an example.
+
+## Keycloak-only instances
+
+Local users (the first method) are disabled by default: the backend accepts only Keycloak users unless the backend `.env` file sets
+
+  * `ENABLE_LOCAL_USERS=true` - allows local users to register and log in with a username and password.
+
+When the variable is unset or `false`, `/auth/register` and `/auth/login` return `403`, and sessions of local users are rejected. This also applies to the `admin` user created by the ansible playbook with `db_manage.py add-user`.
+
+The frontend needs no extra setting: it asks the backend whether local users are enabled and hides the "use password login" option when they are not.
