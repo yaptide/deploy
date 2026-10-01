@@ -27,9 +27,10 @@ To properly setup these variables in case of ansible deployment, please use `yap
 
 ## Keycloak-only instances
 
-Local users (the first method) can be switched off on the backend with these variables in the backend `.env` file:
+Local users (the first method) are disabled by default: the backend accepts only Keycloak users unless the backend `.env` file sets
 
-  * `ENABLE_USER_REGISTRATION` - set to `false` to block self-registration of local users; existing local users can still log in. The docker compose file defaults it to `false`.
-  * `ENABLE_LOCAL_USERS` - set to `false` to allow only Keycloak users: local users can neither register nor log in, and their existing sessions are rejected. Defaults to `true`.
+  * `ENABLE_LOCAL_USERS=true` - allows local users to register and log in with a username and password.
+
+When the variable is unset or `false`, `/auth/register` and `/auth/login` return `403`, and sessions of local users are rejected. This also applies to the `admin` user created by the ansible playbook with `db_manage.py add-user`.
 
 The frontend needs no extra setting: it asks the backend whether local users are enabled and hides the "use password login" option when they are not.
